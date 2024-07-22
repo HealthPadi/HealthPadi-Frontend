@@ -1,6 +1,6 @@
 **HealthPadi**
  
-  HealthPadi is an app designed to connect the mainstream health sector with the community. It aims to provide a reliable, accessible platform for health information, resources, and support, focusing on local needs and user-driven content. It uses modern technologies to ensure high performance and security.
+ HealthPadi is an app designed to connect the mainstream health sector with the community. It aims to provide a reliable, accessible platform for health information, resources, and support, focusing on local needs and user-driven content. It uses modern technologies to ensure high performance and security.
 
 
 **Table of Contents**
@@ -14,21 +14,22 @@
 **Installation**
 Instructions on how to set up the project locally.
 1. Clone the repository
-   =git clone "repo url"
+   git clone "repo url"
 2. Navigate to the project directory
-   -cd "your repository"
+   cd "your repository"
 3. Install dependencies
-   -npm install
+   npm install
 4. Run the development
-   -npm run dev
+  npm run dev
 
 
 
-**Usage**
+
+ **Usage**
 Explain how use the project, including examples, 
 Building for production
--npm run build
--npm run start
+ npm run build
+npm run start
 
 **Contributing**
 We welcome contributions from everyone. Here are some ways you can help:
@@ -44,6 +45,7 @@ We welcome contributions from everyone. Here are some ways you can help:
    "git push origin feature/your-feature-name"
 6. Open a pull request
 
+ 
  **Coding Guidlines**
    1. Follow the code style used in the project.
    2. Use TypeScript for type safety.
@@ -66,7 +68,7 @@ We welcome contributions from everyone. Here are some ways you can help:
 
   **Testing**
    Explain how to run tests and any requirements.
-   -npm run test
+   npm run test
 
 
 
