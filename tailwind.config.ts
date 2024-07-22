@@ -1,3 +1,4 @@
+import { Montserrat } from "next/font/google";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -7,11 +8,26 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontFamily: {
+      montserrat: "var(--font-montserrat)",
+    },
+
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      // backgroundImage: {
+      //   "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      //   "gradient-conic":
+      //     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      // },
+      color: {
+        primary_text_color: "var(--primary-text-color)",
+        secondary_text_color: "var(--secondary-text-color)",
+        tertiary_text_color: "var(--tertiary-text-color)",
+      },
+      backgroundColor: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        foreground_secondary: "var(--foreground-secondary)",
+        foreground_gradient: "var(--foreground-gradient)",
       },
     },
   },
