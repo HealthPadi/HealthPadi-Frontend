@@ -14,13 +14,13 @@
 **Installation**
 Instructions on how to set up the project locally.
 1. Clone the repository
-   git clone "repo url"
+   -git clone "repo url"
 2. Navigate to the project directory
-   cd "your repository"
+   -cd "your repository"
 3. Install dependencies
-   npm install
+   -npm install
 4. Run the development
-  npm run dev
+  -npm run dev
 
 
 
