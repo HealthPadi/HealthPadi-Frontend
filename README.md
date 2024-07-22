@@ -1,5 +1,6 @@
 **HealthPadi**
-HealthPadi is an app designed to connect the mainstream health sector with the community. It aims to provide a reliable, accessible platform for health information, resources, and support, focusing on local needs and user-driven content. It uses modern technologies to ensure high performance and security.
+  HealthPadi is an app designed to connect the mainstream health sector with the community. It aims to provide a reliable, accessible platform for health information, resources, and support, focusing on local needs and user-driven content. It uses modern technologies to ensure high performance and security.
+
 **Table of Contents**
 1. Installation
 2. Usage
@@ -17,6 +18,7 @@ Instructions on how to set up the project locally.
    npm install
 4. Run the development
    npm run dev
+
 
 **Usage**
 Explain how use the project, including examples, 
@@ -38,7 +40,7 @@ We welcome contributions from everyone. Here are some ways you can help:
    "git push origin feature/your-feature-name"
 6. Open a pull request
 
-   **Coding Guidlines**
+ **Coding Guidlines**
    1. Follow the code style used in the project.
    2. Use TypeScript for type safety.
    3. Use Tailwind CSS for styling.
@@ -52,8 +54,9 @@ We welcome contributions from everyone. Here are some ways you can help:
       npm run lint
    2. Fix ESLint errors automatically
       npm run lint:fix
-**Tailwind CSS**
-Ensure your CSS follows the utility-first approach using Tailwind CSS. For custom styles, add them in the appropriate .css or .scss files within the styles directory.
+
+  **Tailwind CSS**
+    Ensure your CSS follows the utility-first approach using Tailwind CSS. For custom styles, add them in the appropriate .css or .scss files within the styles directory.
 
 **Testing**
 Explain how to run tests and any requirements.
