@@ -67,13 +67,15 @@ export default function MainHeader() {
             height={30}
             className="md:w-[40px] md:h-[40px] rounded-full"
           />
-          <Image
-            src={dropdown}
-            alt="dropdown"
-            width={20}
-            height={15}
-            className="ml-2 md:w-[30px] md:h-[20px]"
-          />
+          {isLoggedIn && (
+            <Image
+              src={dropdown}
+              alt="dropdown"
+              width={20}
+              height={15}
+              className="ml-2 md:w-[30px] md:h-[20px]"
+            />
+          )}
         </div>
         {dropdownVisible && (
           <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
@@ -81,13 +83,13 @@ export default function MainHeader() {
               <>
                 <Link
                   href="/login"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                  className="block px-4 py-2 text-green-600 hover:bg-gray-200"
                 >
                   Login
                 </Link>
                 <Link
                   href="/register"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                  className="block px-4 py-2 text-green-600 hover:bg-gray-200"
                 >
                   Register
                 </Link>

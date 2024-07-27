@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+
 import linkedinLogo from "../../assets/icons/logo-linkedin.svg";
 import facebookLogo from "../../assets/icons/logo-facebook.svg";
 import instagramLogo from "../../assets/icons/logo-instagram.svg";
@@ -14,8 +15,7 @@ import {
 } from "@/components/ui/card";
 import MainHeader from "../../components/main-header/main-header";
 import Image from "next/image";
-import maleImg from "../../public/images/male doctor.png";
-import femaleImg from "../../public/images/female doctor.png";
+import docImg from "../../public/images/doctors.png";
 import mentalImg from "../../public/images/mental health.jpeg";
 
 export default function Home() {
@@ -63,28 +63,26 @@ export default function Home() {
               Bridging Health Gaps in Your Community
             </p>
             <div className="mt-8 md:mt-14 flex gap-4 md:gap-10">
-              <button className="bg-green-600 rounded-lg text-white w-[160px] md:w-[200px] h-[45px] md:h-[55px]">
-                Get Started
-              </button>
-              <button className="bg-green-600 rounded-lg text-white w-[160px] md:w-[200px] h-[45px] md:h-[55px]">
-                Get Health Updates
-              </button>
+              <Link href="/register" passHref>
+                <div className="flex items-center justify-center bg-green-600 rounded-lg text-white w-[160px] md:w-[200px] h-[45px] md:h-[55px] hover:bg-green-800">
+                  Get Started
+                </div>
+              </Link>
+              <Link href="/login" passHref>
+                <div className="flex items-center justify-center bg-green-600 rounded-lg text-white w-full md:w-[200px] h-[45px] md:h-[55px] hover:bg-green-800">
+                  Get Health Updates
+                </div>
+              </Link>
             </div>
           </div>
-          <div className="flex items-end space-x-[-20px] md:space-x-[-40px] mt-8 md:mt-[-40px]">
+          <div className="mt-8 md:mt-[-40px] flex justify-center">
             <Image
-              src={maleImg}
-              alt="an image of a male doctor"
-              width={200}
-              height={250}
-              className="w-[200px] md:w-[400px] h-[250px] md:h-[500px]"
-            />
-            <Image
-              src={femaleImg}
-              alt="an image of a female doctor"
-              width={200}
-              height={250}
-              className="w-[200px] md:w-[400px] h-[250px] md:h-[500px]"
+              src={docImg}
+              alt="an image of two doctors"
+              width={500}
+              height={300}
+              className="w-[200px] md:w-[600px] h-[250px] md:h-[500px] object-cover"
+              unoptimized
             />
           </div>
         </div>
@@ -114,7 +112,7 @@ export default function Home() {
           ))}
         </div>
         <div className="p-10 flex items-center justify-center">
-          <button className="w-[130px] h-[55px] font-medium m-10 p-4 rounded-lg gap-6 bg-green-500 text-white">
+          <button className="w-[130px] h-[55px] font-medium m-10 p-4 rounded-lg gap-6 bg-green-500 hover:bg-green-800 text-white">
             See More
           </button>
         </div>
