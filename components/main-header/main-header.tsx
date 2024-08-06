@@ -1,11 +1,12 @@
+"use client";
 import { useState } from "react";
 import Image from "next/image";
 import dropdown from "../../assets/icons/dropdown.svg";
 import profileImg from "../../assets/icons/profile.svg";
-import Link from "next/link";
+import NavLink from "../../components/main-header/nav-link"; // Adjust the import path as needed
 
 export default function MainHeader() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // This state should be set based on actual login status
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // This state should be set based on actual login status
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const toggleDropdown = () => {
@@ -21,36 +22,16 @@ export default function MainHeader() {
         <nav className="hidden md:flex-grow md:flex md:justify-start md:pl-48">
           <ul className="flex gap-6 md:gap-12 items-center">
             <li>
-              <Link
-                href="/aboutUs"
-                className="text-white hover:text-yellow-200"
-              >
-                About Us
-              </Link>
+              <NavLink href="/aboutUs">About Us</NavLink>
             </li>
             <li>
-              <Link
-                href="/healthUpdates"
-                className="text-white hover:text-yellow-200"
-              >
-                Health Update
-              </Link>
+              <NavLink href="/update">Health Update</NavLink>
             </li>
             <li>
-              <Link
-                href="/createReport"
-                className="text-white hover:text-yellow-200"
-              >
-                Create Report
-              </Link>
+              <NavLink href="/report">Create Report</NavLink>
             </li>
             <li>
-              <Link
-                href="/dashboard"
-                className="text-white hover:text-yellow-200"
-              >
-                Home
-              </Link>
+              <NavLink href="/dashboard">Home</NavLink>
             </li>
           </ul>
         </nav>
@@ -81,34 +62,14 @@ export default function MainHeader() {
           <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
             {!isLoggedIn && (
               <>
-                <Link
-                  href="/login"
-                  className="block px-4 py-2 text-green-600 hover:bg-gray-200"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="block px-4 py-2 text-green-600 hover:bg-gray-200"
-                >
-                  Register
-                </Link>
+                <NavLink href="/login">Login</NavLink>
+                <NavLink href="/register">Register</NavLink>
               </>
             )}
             {isLoggedIn && (
               <>
-                <Link
-                  href="/profile"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                >
-                  Profile
-                </Link>
-                <Link
-                  href="/logout"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                >
-                  Logout
-                </Link>
+                <NavLink href="/profile">Profile</NavLink>
+                <NavLink href="/logout">Logout</NavLink>
               </>
             )}
           </div>
