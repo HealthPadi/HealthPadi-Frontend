@@ -1,5 +1,5 @@
 "use client";
-import MainHeader from "../../../../../components/main-header/main-header";
+import MainHeader from "../../../../components/ui/main-header";
 import Image from "next/image";
 import docImg from "../../../../../public/images/doctors.png";
 import Footer from "../../../../components/ui/footer";

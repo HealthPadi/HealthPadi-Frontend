@@ -37,6 +37,7 @@ export default function Footer() {
             width={24}
             height={24}
           />
+          <p className="text-white"> (C) HealthPadi 2024</p>
         </div>
       </div>
     </footer>

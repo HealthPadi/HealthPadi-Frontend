@@ -2,8 +2,8 @@
 import { Input } from "@/components/ui/input";
 
 import Link from "next/link";
-import MainHeader from "../../../../components/main-header/main-header";
-import HeroText from "../../../../components/main-header/hero-text";
+import MainHeader from "../../../components/ui/main-header";
+import HeroText from "../../../components/ui/hero-text";
 import googleLogo from "../../../../assets/icons/google.svg";
 import Image from "next/image";
 export default function Login() {

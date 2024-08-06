@@ -5,7 +5,7 @@ import enableLocation from "../../../assets/icons/enable location.svg";
 import chatIcon from "../../../assets/icons/chat Icon.svg";
 import Link from "next/link";
 import healthPadi from "../../../public/images/healthPadi.png";
-import MainHeader from "../../../components/main-header/main-header";
+import MainHeader from "../../components/ui/main-header";
 
 export default function CreateReport() {
   return (
