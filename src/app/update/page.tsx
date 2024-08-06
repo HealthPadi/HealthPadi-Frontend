@@ -1,5 +1,5 @@
 "use client";
-import MainHeader from "../../../components/main-header/main-header";
+import MainHeader from "../../components/ui/main-header";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import Image from "next/image";
