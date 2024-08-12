@@ -62,7 +62,7 @@ export default function Home() {
             </p>
             <div className="mt-8 md:mt-14 flex gap-4 md:gap-10">
               <Link href="/update" passHref>
-                <div className="flex items-center justify-center bg-green-600 rounded-lg text-white w-[180px] md:w-[200px] h-[45px] md:h-[55px] hover:bg-green-800">
+                <div className="flex items-center justify-center bg-green-600 rounded-lg text-white w-[180px] md:w-[200px] h-[45px] md:h-[55px] hover:bg-gradient-to-r from-green-600 to-green-950">
                   Get Health Updates
                 </div>
               </Link>
@@ -105,7 +105,7 @@ export default function Home() {
           ))}
         </div>
         <div className="mt-12 flex flex-col items-center gap-6">
-          <button className="w-[130px] h-[55px] font-medium p-4 rounded-lg bg-green-500 hover:bg-green-800 text-white">
+          <button className="w-[130px] h-[55px] font-medium p-4 rounded-lg bg-gradient-to-r from-green-600 to-green-950 text-white">
             See More
           </button>
         </div>

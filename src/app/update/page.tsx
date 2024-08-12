@@ -39,7 +39,7 @@ export default function HealthUpdate() {
             />
           </div>
           <Link href="/">
-            <button className="bg-green-600 text-white w-full h-12 md:h-14 mb-3 rounded-sm hover:bg-green-800">
+            <button className="bg-green-600 text-white w-full h-12 md:h-14 mb-3 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950">
               Submit
             </button>
           </Link>

@@ -35,7 +35,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-80">
       <div className="bg-white border border-green-600 rounded-lg relative w-[500px] h-[680px]">
-        <div className="bg-green-600 w-full h-12 rounded-t-lg flex items-center justify-center relative">
+        <div className="bg-gradient-to-r from-green-600 to-green-950 w-full h-12 rounded-t-lg flex items-center justify-center relative">
           <button
             onClick={onClose}
             className="absolute top-2 right-2 text-white text-2xl font-bold w-8 h-8 flex items-center justify-center"
@@ -101,7 +101,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
           <div className="pt-6">
             <button
               type="submit"
-              className="w-full p-4 bg-green-600 text-white font-semibold rounded-md hover:bg-green-800"
+              className="w-full p-4 bg-green-600 text-white font-semibold rounded-md hover:bg-gradient-to-r from-green-600 to-green-950"
             >
               Update Profile
             </button>
