@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function HeroText() {
   return (
     <div className="px-6 md:px-24 pt-8 md:pt-16 pb-6 flex flex-col md:flex-row justify-between">
-      <div className="flex flex-col items-start">
+      <div className="flex flex-col items-start  ">
         <h1
           className="font-bold text-3xl md:text-5xl text-gray-600 leading-relaxed md:leading-snug"
           style={{ lineHeight: "1.3", whiteSpace: "normal" }}

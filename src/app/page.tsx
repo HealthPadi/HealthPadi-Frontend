@@ -66,7 +66,7 @@ export default function Home() {
                 </div>
               </Link>
               <Link href="/login" passHref>
-                <div className="flex items-center justify-center bg-green-600 rounded-lg text-white w-full md:w-[200px] h-[45px] md:h-[55px] hover:bg-green-800">
+                <div className="flex items-center justify-center bg-green-600 rounded-lg text-white w-[180px] md:w-[200px] h-[45px] md:h-[55px] hover:bg-green-800">
                   Get Health Updates
                 </div>
               </Link>
