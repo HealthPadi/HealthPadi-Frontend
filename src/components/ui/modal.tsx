@@ -1,24 +1,30 @@
-import React, { useState } from "react";
-import { FaPlus } from "react-icons/fa"; // Importing the plus icon
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import { FaPlus } from "react-icons/fa";
+import Image from "next/image"; // Importing next/image for optimized images
 
-const Modal = ({ isVisible, onClose }) => {
+interface ModalProps {
+  isVisible: boolean;
+  onClose: () => void;
+}
+
+const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [newProfileImg, setNewProfileImg] = useState(null);
+  const [newProfileImg, setNewProfileImg] = useState<string | null>(null);
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setNewProfileImg(reader.result);
+        setNewProfileImg(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     // Handle the form submission (e.g., save the updated profile)
     console.log("Profile updated:", { firstName, lastName, email });
@@ -41,14 +47,16 @@ const Modal = ({ isVisible, onClose }) => {
           <h2 className="text-4xl text-green-600">My Profile</h2>
           <div className="relative w-20 h-20 mt-6">
             {newProfileImg ? (
-              <img
+              <Image
                 src={newProfileImg}
                 alt="Profile"
                 className="rounded-full w-full h-full object-cover border-2 border-green-600"
+                width={80}
+                height={80}
               />
             ) : (
-              <div className="w-20 h-20 rounded-full border  border-green-600 flex items-center justify-center">
-                <span className="text-gray-500 p-2  ">No Image</span>
+              <div className="w-20 h-20 rounded-full border border-green-600 flex items-center justify-center">
+                <span className="text-gray-500 p-2">No Image</span>
               </div>
             )}
             <input
