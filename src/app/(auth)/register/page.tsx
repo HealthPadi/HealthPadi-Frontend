@@ -57,7 +57,7 @@ export default function Register() {
               </p>
             </div>
             <div className="mt-5 w-full">
-              <button className="bg-green-600 text-white w-full h-14 mb-3 rounded-sm hover:bg-green-800">
+              <button className="bg-green-600 text-white w-full h-14 mb-3 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950">
                 Register
               </button>
             </div>
