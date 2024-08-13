@@ -57,7 +57,7 @@ export default function CreateReport() {
           </h1>
           <textarea className="w-full h-40 md:h-56 mb-6 outline-none border-2 rounded-md border-green-600 focus:outline-none focus:ring-0 focus:border-green-600 p-3" />
           <Link href="/">
-            <button className="bg-green-600 text-white w-full h-12 md:h-14 mb-3 rounded-sm hover:bg-green-800">
+            <button className=" bg-green-600 text-white w-full h-12 md:h-14 mb-3 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950">
               Submit
             </button>
           </Link>

@@ -6,39 +6,32 @@ import instagramLogo from "../../../assets/icons/logo-linkedin.svg";
 
 export default function Footer() {
   return (
-    <footer className="p-10 m-30 bg-gradient-to-r from-green-600 to-green-950">
-      <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+    <footer className="p-6 md:p-10 bg-gradient-to-r from-green-600 to-green-950">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
         <div className="flex items-center justify-center gap-4">
           <Image
-            className="t-[8px] l-[8px]"
             src={facebookLogo}
             alt="facebook logo"
             width={24}
             height={24}
           />
           <Image
-            className="t-[8px] l-[8px]"
             src={linkedinLogo}
             alt="linkedin logo"
             width={24}
             height={24}
           />
+          <Image src={youTubeLogo} alt="youtube logo" width={24} height={24} />
           <Image
-            className="t-[8px] l-[8px]"
-            src={youTubeLogo}
-            alt="youtube logo"
-            width={24}
-            height={24}
-          />
-          <Image
-            className="t-[8px] l-[8px]"
             src={instagramLogo}
             alt="instagram logo"
             width={24}
             height={24}
           />
-          <p className="text-white"> (C) HealthPadi 2024</p>
         </div>
+        <p className="text-white text-sm md:text-base mt-4 md:mt-0">
+          &copy; HealthPadi 2024
+        </p>
       </div>
     </footer>
   );
