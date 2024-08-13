@@ -4,7 +4,7 @@ import dropdown from "../../../assets/icons/dropdown.svg";
 import profileImg from "../../../assets/icons/profile.svg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
- import Modal from "../../components/ui/modal"; // Adjust the import path as needed
+ import Modal from "../ui/modal"; // Adjust the import path as needed
 
 export default function MainHeader() {
   const [isLoggedIn, setIsLoggedIn] = useState(true); // This state should be set based on actual login status
