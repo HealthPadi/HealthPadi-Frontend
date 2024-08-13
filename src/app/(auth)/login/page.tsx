@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import googleLogo from "../../../assets/icons/google.svg";
+// import googleLogo from "../../../assets/icons/google.svg";
 import Link from "next/link";
 import MainHeader from "../../../components/ui/main-header";
 import HeroText from "../../../components/ui/hero-text";
@@ -48,14 +48,14 @@ export default function Login() {
             <div className="flex justify-center items-center w-full mt-3">
               <p className="text-green-600 flex items-center">
                 Or Sign in with{" "}
-                <Link href="/google" className="ml-2">
+                {/* <Link href="/google" className="ml-2">
                   <Image
                     src={googleLogo}
                     alt="Google logo"
                     width={20}
                     height={20}
                   />
-                </Link>
+                </Link> */}
               </p>
             </div>
           </div>
