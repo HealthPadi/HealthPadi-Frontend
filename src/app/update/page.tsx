@@ -32,7 +32,7 @@ export default function HealthUpdate() {
             />
             <Image
               src={enableLocation}
-              alt="enable location"
+              alt="enable Location"
               width={30}
               height={30}
               className="ml-3"
