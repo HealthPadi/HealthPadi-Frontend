@@ -58,7 +58,6 @@ export default function Login() {
                   />
                 </Link>
                 
-              </p>
               {/* <Link href="/google" className="ml-2">
                   <Image
                     src={googleLogo}
@@ -67,6 +66,7 @@ export default function Login() {
                     height={20}
                   />
                 </Link> */}
+              </p>
             </div>
           </div>
         </div>
