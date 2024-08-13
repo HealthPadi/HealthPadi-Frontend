@@ -52,7 +52,7 @@ export default function Register() {
               </Link>
               <p className="text-green-600">
                 <Link href="/login" className="text-green-600">
-                  Login?
+                  Login
                 </Link>
               </p>
             </div>
