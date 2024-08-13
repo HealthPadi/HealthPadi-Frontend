@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import MainHeader from "../../../components/ui/main-header";
 import HeroText from "../../../components/ui/hero-text";
-import googleLogo from "../../../../assets/icons/logo-google.svg";
+import googleLogo from "../../../../assets/icons/google.svg";
 import Image from "next/image";
 export default function Login() {
   return (
@@ -35,7 +35,7 @@ export default function Login() {
               </Link>
               <p className="text-green-600">
                 <Link href="/register" className="text-green-600">
-                  Register
+                  Register?
                 </Link>
               </p>
             </div>
