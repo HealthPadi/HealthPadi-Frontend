@@ -31,11 +31,11 @@ export default function Login() {
             />
             <div className="flex justify-between w-full mb-3 whitespace-nowrap">
               <Link href="/reset" className="text-green-600">
-                Forgot Password?
+                Forgot Password
               </Link>
               <p className="text-green-600">
                 <Link href="/register" className="text-green-600">
-                  Register?
+                  Register
                 </Link>
               </p>
             </div>
