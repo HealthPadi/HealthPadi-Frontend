@@ -70,7 +70,7 @@ export default function HealthUpdate() {
               relevant to your area by staying connected.
             </h3>
           </div>
-          <Link href="/" className="mt-10 md:mt-auto self-end">
+          <Link href="/chat" className="mt-10 md:mt-auto self-end">
             <Image src={chatIcon} alt="chat icon" width={60} height={60} />
           </Link>
         </div>

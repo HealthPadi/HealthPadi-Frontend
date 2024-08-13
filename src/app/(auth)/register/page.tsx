@@ -6,7 +6,7 @@ import Image from "next/image";
 import HeroText from "../../../components/ui/hero-text";
 import MainHeader from "../../../components/ui/main-header";
 
-import googleLogo from "../../../../assets/icons/google.svg";
+import googleLogo from "../../../../assets/icons/logo-google.svg";
 
 export default function Register() {
   return (

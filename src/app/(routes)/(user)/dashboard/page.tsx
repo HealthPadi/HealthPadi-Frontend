@@ -123,7 +123,7 @@ export default function Home() {
             </p>
             <p>Stay informed, stay healthy!</p>
           </div>
-          <Link href="/" passHref>
+          <Link href="/chat" passHref>
             <div className="flex-none ml-2 md:ml-4 mt-4 lg:mt-0">
               <Image src={chatIcon} alt="chat icon" width={60} height={60} />
             </div>

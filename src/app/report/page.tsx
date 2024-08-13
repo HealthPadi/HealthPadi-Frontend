@@ -61,7 +61,7 @@ export default function CreateReport() {
               Submit
             </button>
           </Link>
-          <Link href="/" className="mt-10 self-end">
+          <Link href="/chat" className="mt-10 self-end">
             <Image src={chatIcon} alt="chat icon" width={60} height={60} />
           </Link>
         </div>
