@@ -6,8 +6,6 @@ import Image from "next/image";
 import HeroText from "../../../components/ui/hero-text";
 import MainHeader from "../../../components/ui/main-header";
 
-import googleLogo from "../../../../assets/icons/google.svg";
-
 export default function Register() {
   return (
     <>
@@ -64,14 +62,14 @@ export default function Register() {
             <div className="flex justify-center items-center w-full mt-3">
               <p className="text-green-600 flex items-center">
                 Or Sign up with{" "}
-                <Link href="/google" className="ml-2">
+                {/* <Link href="/google" className="ml-2">
                   <Image
                     src={googleLogo}
                     alt="Google logo"
                     width={20}
                     height={20}
                   />
-                </Link>
+                </Link> */}
               </p>
             </div>
           </div>
