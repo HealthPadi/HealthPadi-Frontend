@@ -63,15 +63,15 @@ export default function Register() {
             </div>
             <div className="flex justify-center items-center w-full mt-3">
               <p className="text-green-600 flex items-center">
-                Or Sign up with Google{" "}
-                {/* <Link href="/google" className="ml-2">
+                Or Sign up with{" "}
+                <Link href="/google" className="ml-2">
                   <Image
                     src={googleLogo}
                     alt="Google logo"
                     width={20}
                     height={20}
                   />
-                </Link> */}
+                </Link>
               </p>
             </div>
           </div>
