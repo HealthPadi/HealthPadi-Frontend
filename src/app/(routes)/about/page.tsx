@@ -21,7 +21,7 @@ export default function AboutUs() {
           updates tailored to your specific location.
         </p>
         <div className="mt-8 sm:mt-12 md:mt-auto self-center mb-6 sm:mb-8 lg:mb-10">
-          <Link href="/">
+          <Link href="/chat">
             <Image src={chatIcon} alt="chat icon" width={50} height={50} />
           </Link>
         </div>

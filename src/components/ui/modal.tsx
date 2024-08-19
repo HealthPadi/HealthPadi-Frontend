@@ -67,7 +67,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
             <FaPlus className="absolute bottom-1 right-1 text-green-600 text-2xl cursor-pointer" />
           </div>
           <h3 className="mt-6 text-4xl font-semibold text-green-600">
-            Joy Penn
+            {firstName} {lastName}
           </h3>
         </div>
         <form onSubmit={handleSubmit} className="space-y-5 px-4 mt-6">

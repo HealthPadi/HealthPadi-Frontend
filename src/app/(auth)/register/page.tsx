@@ -4,14 +4,18 @@ import Link from "next/link";
 import Image from "next/image";
 
 import HeroText from "../../../components/ui/hero-text";
-import MainHeader from "../../../components/ui/main-header";
 
 import googleLogo from "../../../../assets/icons/logo-google.svg";
 
 export default function Register() {
   return (
     <>
-      <MainHeader />
+      <header className="bg-gradient-to-r from-green-600 to-green-950 flex items-center justify-between p-6 md:p-8">
+        <h1 className="font-bold text-yellow-200 text-2xl md:text-3xl">
+          HealthPadi
+        </h1>
+      </header>
+
       <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start p-5">
         <div className="flex-1 lg:mr-8 mb-5 lg:mb-0">
           <HeroText />
@@ -52,7 +56,7 @@ export default function Register() {
               </Link>
               <p className="text-green-600">
                 <Link href="/login" className="text-green-600">
-                  Login?
+                  Login
                 </Link>
               </p>
             </div>
