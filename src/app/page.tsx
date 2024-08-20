@@ -13,6 +13,7 @@ import {
 import Image from "next/image";
 import docImg from "../../public/images/doctors.png";
 import mentalImg from "../../public/images/mental health.jpeg";
+import HeaderText from "@/components/ui/header-text";
 
 export default function Home() {
   const healthUpdateCards = [
@@ -44,11 +45,7 @@ export default function Home() {
 
   return (
     <>
-      <header className="bg-gradient-to-r from-green-600 to-green-950 flex items-center justify-between p-6 md:p-8">
-        <h1 className="font-bold text-yellow-200 text-2xl md:text-3xl">
-          HealthPadi
-        </h1>
-      </header>
+      <HeaderText />
       <main className="mb-10">
         <div className="px-6 md:px-24 pt-24 pb-1 flex flex-col md:flex-row justify-between border-b border-b-gray-600">
           <div className="flex flex-col items-start  ">
