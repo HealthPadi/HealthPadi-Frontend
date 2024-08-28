@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Loader } from "lucide-react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -13,12 +13,13 @@ import Image from "next/image";
 import HeaderText from "@/components/ui/header-text";
 import FormError from "@/components/FormError";
 import useAuth from "../../../../hooks/useAuth";
+import axiosConfig from "../../../../config/axios";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const { loginMutation } = useAuth();
+  const { loginMutation, googleLogin } = useAuth();
   const LoginSchema = z.object({
     email: z.string().email({
       message: "Invalid username or email address",
@@ -38,6 +39,50 @@ const Login = () => {
     },
   });
 
+  // Uncomment and fix the Google Sign-In logic if needed
+  // useEffect(() => {
+  //   // Load the Google API script
+  //   const script = document.createElement("script");
+  //   script.src = "https://accounts.google.com/gsi/client";
+  //   script.async = true;
+  //   script.onload = () => {
+  //     // Initialize the Google Sign-In client
+  //     window.google.accounts.id.initialize({
+  //       client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID, // Access the client ID from the environment variable
+  //       callback: handleGoogleSignIn,
+  //     });
+  //   };
+  //   document.body.appendChild(script);
+  // }, []);
+
+  // const handleGoogleSignIn = async (response: any) => {
+  //   setIsLoading(true);
+  //   const token = response.credential;
+
+  //   await googleSignInMutation.mutateAsync(
+  //     { token },
+  //     {
+  //       onSuccess: (data) => {
+  //         toast.success("Login successful", {
+  //           duration: 1000,
+  //           position: "bottom-right",
+  //           icon: "🎉",
+  //         });
+  //         setIsLoading(false);
+  //         router.push("/dashboard");
+  //       },
+  //       onError: (error: any) => {
+  //         toast.error("Login failed", {
+  //           duration: 1000,
+  //           position: "bottom-right",
+  //           icon: "❌",
+  //         });
+  //         setIsLoading(false);
+  //       },
+  //     }
+  //   );
+  // };
+
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     const payload = {
@@ -49,21 +94,30 @@ const Login = () => {
       onSuccess: (data) => {
         toast.success("Login successful", {
           duration: 1000,
-          position: "bottom-right",
           icon: "🎉",
         });
         setIsLoading(false);
-        // router.push("/dashboard");
+        router.push("/dashboard");
       },
       onError: (error: any) => {
         toast.error("Login failed", {
           duration: 1000,
-          position: "bottom-right",
           icon: "❌",
         });
         setIsLoading(false);
       },
     });
+  };
+
+  const googleSignin = async () => {
+    // setIsLoading(true);
+    // const response = await axiosConfig.get("/api/account/google-login");
+    // const data = response.data;
+    // if (data.url) {
+    //   window.location.href = data.url;
+    // }
+    //console.log("Google Signin");
+    googleLogin();
   };
 
   return (
@@ -127,7 +181,10 @@ const Login = () => {
                 </button>
               </div>
               <div className="flex justify-center items-center w-full mt-3">
-                <Link href="" className="text-green-600 flex items-center">
+                <button
+                  className="text-green-600 flex items-center"
+                  onClick={googleSignin}
+                >
                   Or Sign in with{" "}
                   <Image
                     src={googleLogo}
@@ -136,7 +193,7 @@ const Login = () => {
                     height={20}
                     className="ml-2"
                   />
-                </Link>
+                </button>
               </div>
             </div>
           </form>

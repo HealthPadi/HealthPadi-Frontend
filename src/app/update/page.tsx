@@ -5,10 +5,69 @@ import Link from "next/link";
 import Image from "next/image";
 import healthbadge from "../../../public/images/healthbadge.png";
 import enableLocation from "../../../assets/icons/enable location.svg";
+import disableLocation from "../../../assets/icons/disable location.svg";
 import chatIcon from "../../../assets/icons/chat Icon.svg";
-import { Londrina_Sketch } from "next/font/google";
+import { useState } from "react";
+import axios from "axios";
+
+// Define the AddressComponent interface
+interface AddressComponent {
+  long_name: string;
+  short_name: string;
+  types: string[];
+}
 
 export default function HealthUpdate() {
+  const [location, setLocation] = useState("");
+  const [error, setError] = useState("");
+  const [locationEnabled, setLocationEnabled] = useState(false);
+
+  const handleGetLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          try {
+            const response = await axios.get(
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyAdi6ZdkYtYS5v-v-LVAYGwtobv7PMLz8o`
+            );
+            const addressComponents: AddressComponent[] =
+              response.data.results[0].address_components;
+            const city = addressComponents.find((component: AddressComponent) =>
+              component.types.includes("locality")
+            )?.long_name;
+            const country = addressComponents.find(
+              (component: AddressComponent) =>
+                component.types.includes("country")
+            )?.long_name;
+            setLocation(`${city}, ${country}`);
+            setError("");
+            setLocationEnabled(true);
+          } catch (err) {
+            setError("Unable to retrieve your location.");
+            setLocationEnabled(false);
+          }
+        },
+        (err) => {
+          setError("Unable to retrieve your location.");
+          setLocationEnabled(false);
+        }
+      );
+    } else {
+      setError("Geolocation is not supported by this browser.");
+      setLocationEnabled(false);
+    }
+  };
+
+  const handleToggleLocation = () => {
+    if (locationEnabled) {
+      setLocation("");
+      setLocationEnabled(false);
+    } else {
+      handleGetLocation();
+    }
+  };
+
   return (
     <>
       <MainHeader />
@@ -17,25 +76,22 @@ export default function HealthUpdate() {
           <h1 className="text-lg text-gray-600 font-bold mb-2">
             Get Health Update
           </h1>
-          <div className="flex items-center mb-3">
-            <Input
-              type="text"
-              placeholder="Search keywords"
-              className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
-            />
-          </div>
+          <div className="flex items-center mb-3"></div>
           <div className="flex items-center mb-3">
             <Input
               type="text"
               placeholder="Location"
+              value={location}
+              readOnly
               className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
             />
             <Image
-              src={enableLocation}
-              alt="enable location"
+              src={locationEnabled ? enableLocation : disableLocation}
+              alt={locationEnabled ? "disable location" : "enable location"}
               width={30}
               height={30}
-              className="ml-3"
+              className="ml-3 cursor-pointer"
+              onClick={handleToggleLocation}
             />
           </div>
           <Link href="/">

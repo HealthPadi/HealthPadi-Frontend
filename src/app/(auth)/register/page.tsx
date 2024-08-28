@@ -78,18 +78,16 @@ const Register = () => {
         // toast.success("Registration successful");
         toast.success("Registration successful", {
           duration: 1000,
-          position: "bottom-right",
 
           icon: "✅",
         });
-        // router.push("/dashboard");
+        router.push("/dashboard");
       },
       onError: (error: any) => {
         console.log(error);
         // toast.error(error.response?.data?.message);
         toast.error("Registration unsuccessful", {
           duration: 1000,
-          position: "bottom-right",
 
           icon: "❌",
         });

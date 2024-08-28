@@ -1,16 +1,21 @@
+"use client";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { FaPlus } from "react-icons/fa";
-import Image from "next/image"; // Importing next/image for optimized images
+import Image from "next/image";
+import toast, { Toaster } from "react-hot-toast"; // Importing react-hot-toast
+import { useAuthState } from "../../../store/authStore";
 
 interface ModalProps {
   isVisible: boolean;
   onClose: () => void;
+  children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+const Modal: React.FC<ModalProps> = ({ isVisible, onClose, children }) => {
+  const { user } = useAuthState();
+  const [firstName, setFirstName] = useState(user?.firstName);
+  const [lastName, setLastName] = useState(user?.lastName);
+  const [email, setEmail] = useState(user?.email);
   const [newProfileImg, setNewProfileImg] = useState<string | null>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -28,12 +33,17 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
     e.preventDefault();
     // Handle the form submission (e.g., save the updated profile)
     console.log("Profile updated:", { firstName, lastName, email });
+    toast.success("Profile updated successfully!", {
+      duration: 1000,
+      icon: "🎉",
+    }); // Show success toast with specified options
   };
 
   if (!isVisible) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-80">
+      <Toaster /> {/* Add Toaster component to render toasts */}
       <div className="bg-white border border-green-600 rounded-lg relative w-[500px] h-[680px]">
         <div className="bg-gradient-to-r from-green-600 to-green-950 w-full h-12 rounded-t-lg flex items-center justify-center relative">
           <button
@@ -67,7 +77,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
             <FaPlus className="absolute bottom-1 right-1 text-green-600 text-2xl cursor-pointer" />
           </div>
           <h3 className="mt-6 text-4xl font-semibold text-green-600">
-            {firstName} {lastName}
+            {user?.firstName} {user?.lastName}
           </h3>
         </div>
         <form onSubmit={handleSubmit} className="space-y-5 px-4 mt-6">
@@ -92,6 +102,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
           <div className="mb-6">
             <input
               type="email"
+              disabled={true}
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -107,6 +118,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
             </button>
           </div>
         </form>
+        {children} {/* Render children inside the modal */}
       </div>
     </div>
   );

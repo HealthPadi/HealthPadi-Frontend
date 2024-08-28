@@ -1,13 +1,26 @@
 "use client";
-import Link from "next/link";
+import { useState } from "react";
 import Footer from "@/components/ui/footer";
 import Feeds from "@/components/ui/feeds";
-
 import MainHeader from "../../../../components/ui/main-header";
 import Image from "next/image";
 import chatIcon from "../../../../../assets/icons/chat Icon.svg";
 import HeroText from "@/components/ui/hero-text";
+import { useAuthState } from "../../../../../store/authStore";
+import { get } from "http";
 export default function Home() {
+  const [isChatModalVisible, setIsChatModalVisible] = useState(false);
+  const { user } = useAuthState();
+
+  console.log({ user });
+  const openChatModal = () => {
+    setIsChatModalVisible(true);
+  };
+
+  const closeChatModal = () => {
+    setIsChatModalVisible(false);
+  };
+
   return (
     <>
       <MainHeader />
@@ -31,11 +44,12 @@ export default function Home() {
             </p>
             <p>Stay informed, stay healthy!</p>
           </div>
-          <Link href="/chat" passHref>
-            <div className="flex-none ml-2 md:ml-4 mt-4 lg:mt-0">
-              <Image src={chatIcon} alt="chat icon" width={60} height={60} />
-            </div>
-          </Link>
+          <div
+            className="flex-none ml-2 md:ml-4 mt-4 lg:mt-0 cursor-pointer"
+            onClick={openChatModal}
+          >
+            <Image src={chatIcon} alt="chat icon" width={60} height={60} />
+          </div>
         </div>
       </main>
       <Footer />

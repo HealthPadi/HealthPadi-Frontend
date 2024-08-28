@@ -8,16 +8,25 @@ const axiosConfig = axios.create({
 });
 axiosConfig.interceptors.request.use(
   function (config) {
-    const jwt = localStorage.getItem("token");
+    //Getting the auth token that was persisted by zustand
+    let authToken;
+    const authStateString = localStorage.getItem("auth");
+    if (authStateString) {
+      const authObj = JSON.parse(authStateString);
 
-    console.log("jwt", jwt);
-    if (jwt) {
-      config.headers.Authorization = "Bearer " + jwt;
+      authToken = authObj?.state?.token;
     }
+
+    // Only add authToken to headers if it exists
+    if (authToken) {
+      config.headers.Authorization = "Bearer " + authToken;
+    }
+
     return config;
   },
-  function (err) {
-    return Promise.reject(err);
+  function (error) {
+    // Do something with request error
+    return Promise.reject(error);
   }
 );
 
@@ -25,6 +34,7 @@ axiosConfig.interceptors.response.use(
   function (response) {
     return response;
   },
+
   function (err) {
     // Check if err.response is defined before accessing its properties
     if (err.response) {
