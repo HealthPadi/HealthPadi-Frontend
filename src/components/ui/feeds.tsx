@@ -7,66 +7,97 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import healthImg from "../../../public/images/healthImg.jpeg";
 import Link from "next/link";
+import useFeed from "../../../hooks/useFeed";
+import healthbadge from "../../../public/images/healthbadge.png";
+import { useState } from "react";
 
 export default function Feeds() {
-  const healthUpdateCards = [
-    {
-      img: healthImg,
-      title: "How to Identify Covid 19 Symptoms",
-      description:
-        "Covid-19 is an infectious disease caused by the severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). It was first identified in December 2019 in Wuhan, China, and has since spread globally, resulting in the ongoing 2019–20 coronavirus pandemic.",
-      postedBy: "Dr Steven Alli",
-      link: "/healthUpdates/1",
-    },
-    {
-      img: healthImg,
-      title: "How to Identify Covid 19 Symptoms",
-      description:
-        "Covid-19 is an infectious disease caused by the severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). It was first identified in December 2019 in Wuhan, China, and has since spread globally, resulting in the ongoing 2019–20 coronavirus pandemic.",
-      postedBy: "Dr Steven Alli",
-      link: "/healthUpdates/1",
-    },
-    {
-      img: healthImg,
-      title: "How to Identify Covid 19 Symptoms",
-      description:
-        "Covid-19 is an infectious disease caused by the severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). It was first identified in December 2019 in Wuhan, China, and has since spread globally, resulting in the ongoing 2019–20 coronavirus pandemic.",
-      postedBy: "Dr Steven Alli",
-      link: "/healthUpdates/1",
-    },
-  ];
+  const { getFeedsQuery } = useFeed();
+  const [selectedFeed, setSelectedFeed] = useState(null);
+
+  const handleCardClick = (feed) => {
+    setSelectedFeed(feed);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedFeed(null);
+  };
+
+  const splitContent = (content) => {
+    const lines = content.split("\n");
+    const title = lines[0];
+    const descriptionLines = lines.slice(1, 6).join(" ");
+    const truncatedDescription = truncateAtFullStop(descriptionLines, 300);
+    const remainingContent = lines.slice(6).join("\n");
+    return { title, description: truncatedDescription, remainingContent };
+  };
+
+  const truncateAtFullStop = (text, maxLength) => {
+    if (text.length <= maxLength) return text;
+    const truncated = text.substring(0, maxLength);
+    const lastFullStop = truncated.lastIndexOf(".");
+    return lastFullStop !== -1
+      ? truncated.substring(0, lastFullStop + 1)
+      : truncated;
+  };
+
   return (
     <>
-      <div className="flex flex-col lg:flex-row justify-center items-center mt-20 gap-8 lg:gap-20">
-        {healthUpdateCards.map((card, index) => (
-          <Link key={index} href={card.link} passHref>
-            <Card className="w-full md:w-[480px] lg:w-[500px] shadow-sm shadow-gray-600 cursor-pointer hover:shadow-md transition-shadow duration-200">
-              <CardHeader>
-                <Image
-                  src={card.img}
-                  width={500}
-                  height={200}
-                  alt="an image of a mental health issue"
-                  className=""
-                />
-                <CardTitle className="p-2 text-lg md:text-xl lg:text-2xl">
-                  {card.title}
-                </CardTitle>
-                <CardDescription className="p-2 text-sm md:text-base lg:text-lg">
-                  {card.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent></CardContent>
-              <CardFooter className="flex justify-between text-sm md:text-base lg:text-lg">
-                Posted By: {card.postedBy}
-              </CardFooter>
-            </Card>
-          </Link>
-        ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-20 pl-8 pr-8">
+        {getFeedsQuery.isLoading && <div>Loading...</div>}
+        {getFeedsQuery.isError && <div>Something went wrong</div>}
+        {getFeedsQuery?.data?.data?.length < 1 && (
+          <div>No posts available at the moment</div>
+        )}
+        {getFeedsQuery?.data?.data?.map((feed, index) => {
+          const { title, description, remainingContent } = splitContent(
+            feed.feedContent
+          );
+          return (
+            <div
+              key={index}
+              onClick={() =>
+                handleCardClick({ title, description, remainingContent })
+              }
+            >
+              <Card className="w-full h-112 shadow-sm shadow-gray-600 cursor-pointer hover:shadow-md transition-shadow duration-200">
+                <CardHeader className="h-1/2">
+                  <Image
+                    src={healthbadge}
+                    width={500}
+                    height={200}
+                    alt="an image of a mental health issue"
+                    className="w-full h-full object-cover"
+                  />
+                </CardHeader>
+                <CardContent className="h-1/4 p-2 overflow-hidden">
+                  <CardTitle>{title}</CardTitle>
+                  <CardDescription>{description}</CardDescription>
+                </CardContent>
+                <CardFooter className="h-1/4 flex justify-between items-end p-2">
+                  Generated By: {"AI ✨"}
+                </CardFooter>
+              </Card>
+            </div>
+          );
+        })}
       </div>
-      ;
+      {selectedFeed && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg max-w-lg w-full">
+            <h2 className="text-2xl font-bold mb-4">{selectedFeed.title}</h2>
+            <p className="mb-4">{selectedFeed.description}</p>
+            <p>{selectedFeed.remainingContent}</p>
+            <button
+              onClick={handleCloseModal}
+              className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -3,13 +3,11 @@ import { StateStorage, createJSONStorage, persist } from "zustand/middleware";
 
 export type AuthState = {
   token?: string;
-  //   refreshToken?: string;
   user?: User;
 };
 
 export type AuthActions = {
   setToken: (authToken: string) => void;
-  //   setRefreshToken: (refreshToken: string) => void;
   clearAuth: () => void;
   setUser: (user: User) => void;
 };
@@ -29,7 +27,8 @@ const initializer: StateCreator<AuthState & AuthActions> = (set) => ({
 });
 
 const persistedAuthState = persist<AuthState & AuthActions>(initializer, {
-  name: "auth",
+  name: "auth", // Name of the storage key
+  storage: createJSONStorage(() => localStorage), // Use localStorage
 });
 
 export const useAuthState = create<

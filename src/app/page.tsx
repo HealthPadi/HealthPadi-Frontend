@@ -14,35 +14,8 @@ import Image from "next/image";
 import docImg from "../../public/images/doctors.png";
 import mentalImg from "../../public/images/mental health.jpeg";
 import HeaderText from "@/components/ui/header-text";
-
+import Feeds from "@/components/ui/feeds";
 export default function Home() {
-  const healthUpdateCards = [
-    {
-      img: mentalImg,
-      title: "How to Identify Early stage Mental Health Issues",
-      description:
-        "Mental health is a state of well-being in which an individual realizes his or her abilities, can cope with the normal stresses of life, can work productively.",
-      postedBy: "Dr Steven Alli",
-      link: "/healthUpdates/1",
-    },
-    {
-      img: mentalImg,
-      title: "How to Identify Early stage Mental Health Issues",
-      description:
-        "Mental health is a state of well-being in which an individual realizes his or her abilities, can cope with the normal stresses of life, can work productively.",
-      postedBy: "Dr Steven Alli",
-      link: "/healthUpdates/2",
-    },
-    {
-      img: mentalImg,
-      title: "How to Identify Early stage Mental Health Issues",
-      description:
-        "Mental health is a state of well-being in which an individual realizes his or her abilities, can cope with the normal stresses of life, can work productively.",
-      postedBy: "Dr Steven Alli",
-      link: "/healthUpdates/3",
-    },
-  ];
-
   return (
     <>
       <HeaderText />
@@ -83,31 +56,7 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="flex flex-col md:flex-row justify-center items-center mt-20 gap-8 md:gap-20">
-          {healthUpdateCards.map((card, index) => (
-            <Link key={index} href={card.link} passHref>
-              <Card className="w-full md:w-[480px] shadow-sm shadow-gray-600 cursor-pointer hover:shadow-md transition-shadow duration-200">
-                <CardHeader>
-                  <Image
-                    src={card.img}
-                    width={500}
-                    height={200}
-                    alt="an image of a mental health issue"
-                    className=""
-                  />
-                  <CardTitle className="p-2">{card.title}</CardTitle>
-                  <CardDescription className="p-2">
-                    {card.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent></CardContent>
-                <CardFooter className="flex justify-between">
-                  Posted By: {card.postedBy}
-                </CardFooter>
-              </Card>
-            </Link>
-          ))}
-        </div>
+        <Feeds />
         <div className="p-10 flex items-center justify-center">
           <button className="w-[130px] h-[55px] font-medium m-10 p-4 rounded-lg gap-6 bg-green-500 hover:bg-gradient-to-r from-green-600 to-green-950 text-white">
             See More
