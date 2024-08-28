@@ -10,6 +10,13 @@ import chatIcon from "../../../assets/icons/chat Icon.svg";
 import { useState } from "react";
 import axios from "axios";
 
+// Define the AddressComponent interface
+interface AddressComponent {
+  long_name: string;
+  short_name: string;
+  types: string[];
+}
+
 export default function HealthUpdate() {
   const [location, setLocation] = useState("");
   const [error, setError] = useState("");
@@ -24,14 +31,15 @@ export default function HealthUpdate() {
             const response = await axios.get(
               `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyAdi6ZdkYtYS5v-v-LVAYGwtobv7PMLz8o`
             );
-            const addressComponents =
+            const addressComponents: AddressComponent[] =
               response.data.results[0].address_components;
-            const city = addressComponents.find((component) =>
+            const city = addressComponents.find((component: AddressComponent) =>
               component.types.includes("locality")
-            ).long_name;
-            const country = addressComponents.find((component) =>
-              component.types.includes("country")
-            ).long_name;
+            )?.long_name;
+            const country = addressComponents.find(
+              (component: AddressComponent) =>
+                component.types.includes("country")
+            )?.long_name;
             setLocation(`${city}, ${country}`);
             setError("");
             setLocationEnabled(true);

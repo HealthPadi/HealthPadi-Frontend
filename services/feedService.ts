@@ -1,25 +1,23 @@
+import { ReactNode } from "react";
 import axiosConfig from "../config/axios";
 import { AxiosResponse } from "axios";
 
 export interface Feed {
+  remainingContent: ReactNode;
+  title: ReactNode;
+  description: ReactNode;
   feedId: string;
   feedContent: string;
 }
 
 export interface GetAllFeedsResponse {
   status: string;
-  data: {
-    feedId: string;
-    feedContent: string;
-  }[];
+  data: Feed[];
 }
 
 type FeedDetail = {
   status: string;
-  data: {
-    feedId: string;
-    feedContent: string;
-  };
+  data: Feed;
 };
 
 type FeedDetailResponse = {
