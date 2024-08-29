@@ -10,6 +10,10 @@ import Link from "next/link";
 import healthPadi from "../../../public/images/healthPadi.png";
 import MainHeader from "../../components/ui/main-header";
 import FormError from "@/components/FormError";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { Loader } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
 
 // Define the AddressComponent interface
 interface AddressComponent {
@@ -22,6 +26,35 @@ export default function CreateReport() {
   const [location, setLocation] = useState("");
   const [error, setError] = useState("");
   const [locationEnabled, setLocationEnabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    setError: setFormError,
+    formState: { errors },
+  } = useForm();
+
+  const reportMutation = useMutation({
+    mutationFn: async (data: { description: string; location: string }) => {
+      return await axios.post("/api/report", data); // Adjust the endpoint as needed
+    },
+    onSuccess: () => {
+      toast.success("Report submitted successfully", {
+        duration: 3000,
+        icon: "🎉",
+      });
+    },
+    onError: () => {
+      toast.error("Report submission failed", {
+        duration: 3000,
+        icon: "❌",
+      });
+    },
+    onSettled: () => {
+      setIsLoading(false);
+    },
+  });
 
   const handleGetLocation = () => {
     if (navigator.geolocation) {
@@ -69,6 +102,21 @@ export default function CreateReport() {
     }
   };
 
+  const onSubmit = (data: any) => {
+    if (!data.description) {
+      setFormError("description", {
+        type: "required",
+        message: "Description is required",
+      });
+      return;
+    }
+    setIsLoading(true);
+    reportMutation.mutate({
+      description: data.description,
+      location: location,
+    });
+  };
+
   return (
     <>
       <MainHeader />
@@ -92,41 +140,44 @@ export default function CreateReport() {
           <h1 className="text-2xl font-bold mb-4 text-gray-600">
             Create Report
           </h1>
-          <div className="flex flex-col mb-6">
-            {/* Uncomment this if you need a keyword search input */}
-            {/* <Input
-              type="text"
-              placeholder="Search keywords"
-              className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
-            /> */}
-          </div>
-          <div className="flex items-center mb-6">
-            <Input
-              type="text"
-              placeholder="Location"
-              value={location}
-              readOnly
-              className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex items-center mb-6">
+              <Input
+                type="text"
+                placeholder="Location"
+                value={location}
+                readOnly
+                className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
+              />
+              <Image
+                src={locationEnabled ? enableLocation : disableLocation}
+                alt={locationEnabled ? "disable location" : "enable location"}
+                width={30}
+                height={30}
+                className="ml-3 cursor-pointer"
+                onClick={handleToggleLocation}
+              />
+            </div>
+            <h1 className="text-xl font-bold mb-4 text-gray-600">
+              Report Description
+            </h1>
+            <textarea
+              {...register("description", {
+                required: "Description is required",
+              })}
+              className="w-full h-40 md:h-56 mb-6 outline-none border-2 rounded-md border-green-600 focus:outline-none focus:ring-0 focus:border-green-600 p-3"
             />
-            <Image
-              src={locationEnabled ? enableLocation : disableLocation}
-              alt={locationEnabled ? "disable location" : "enable location"}
-              width={30}
-              height={30}
-              className="ml-3 cursor-pointer"
-              onClick={handleToggleLocation}
-            />
-          </div>
-          <h1 className="text-xl font-bold mb-4 text-gray-600">
-            Report Description
-          </h1>
-          <textarea className="w-full h-40 md:h-56 mb-6 outline-none border-2 rounded-md border-green-600 focus:outline-none focus:ring-0 focus:border-green-600 p-3" />
-          <FormError error="Description is required" />
-          <Link href="/">
-            <button className=" bg-green-600 text-white w-full h-12 md:h-14 mb-3 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950">
-              Submit
+            {errors.description && (
+              <FormError error={errors.description.message as string} />
+            )}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className=" bg-green-600 text-white w-full h-12 md:h-14 mb-3 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950 text-center"
+            >
+              {isLoading ? <Loader className="animate-spin " /> : "Submit"}
             </button>
-          </Link>
+          </form>
           <Link href="/chat" className="mt-10 self-end">
             <Image src={chatIcon} alt="chat icon" width={60} height={60} />
           </Link>

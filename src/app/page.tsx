@@ -1,27 +1,18 @@
 "use client";
 import Link from "next/link";
 import Footer from "@/components/ui/footer";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import Image from "next/image";
 import docImg from "../../public/images/doctors.png";
-import mentalImg from "../../public/images/mental health.jpeg";
 import HeaderText from "@/components/ui/header-text";
 import Feeds from "@/components/ui/feeds";
+
 export default function Home() {
   return (
     <>
       <HeaderText />
       <main className="mb-10">
         <div className="px-6 md:px-24 pt-24 pb-1 flex flex-col md:flex-row justify-between border-b border-b-gray-600">
-          <div className="flex flex-col items-start  ">
+          <div className="flex flex-col items-start">
             <h1
               className="font-bold text-3xl md:text-5xl text-gray-600 leading-snug md:leading-tight"
               style={{ lineHeight: "1.2", whiteSpace: "normal" }}
@@ -56,11 +47,14 @@ export default function Home() {
             />
           </div>
         </div>
-        <Feeds />
+        <Feeds limit={3} />
         <div className="p-10 flex items-center justify-center">
-          <button className="w-[130px] h-[55px] font-medium m-10 p-4 rounded-lg gap-6 bg-green-500 hover:bg-gradient-to-r from-green-600 to-green-950 text-white">
+          <Link
+            href="/seeMore"
+            className="w-[120px] md:w-[130px] lg:w-[150px] h-[50px] md:h-[55px] lg:h-[60px] font-medium p-4 rounded-lg bg-gradient-to-r from-green-600 to-green-950 text-white text-center"
+          >
             See More
-          </button>
+          </Link>
         </div>
       </main>
       <Footer />
