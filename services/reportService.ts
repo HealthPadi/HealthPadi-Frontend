@@ -1,71 +1,49 @@
+import { z } from "zod";
 import axiosConfig from "../config/axios";
 import { AxiosResponse } from "axios";
-import { create } from "zustand";
 
-interface create {
-  id: string;
-  location: string;
-  content: string;
-}
+// Define the request and response schemas using Zod
+const ReportRequestSchema = z.object({
+  description: z.string(),
+  location: z.string().optional(),
+});
 
-interface User {
-  id: string;
-  email: string;
-  role: string;
-  firstName: string;
-  lastName: string;
-  passwordHash: string;
-  createdAt: string;
-  updatedAt: string;
-}
+const ReportResponseSchema = z.object({
+  message: z.string(),
+  reportId: z.string(),
+});
 
-export interface Report {
-  id: string;
-  location: string;
-  content: string;
-}
-
-export interface GetAllReportsResponse {
-  reports: Report[];
-}
-
-type Option = {
-  value: string;
-  label: string;
-};
-
-type ReportDetail = {
-  id: string;
-  location: string;
-  content: string;
-};
-
-type ReportDetailResponse = {
-  report: ReportDetail;
-};
+// Define TypeScript types based on Zod schemas
+export type ReportRequest = z.infer<typeof ReportRequestSchema>;
+export type ReportResponse = z.infer<typeof ReportResponseSchema>;
 
 class ReportService {
-  async createReport(data: create): Promise<AxiosResponse> {
-    return axiosConfig.post("/reports", data);
-  }
+  static createReport = async (
+    requestBody: ReportRequest,
+    token: string
+  ): Promise<AxiosResponse<ReportResponse>> => {
+    try {
+      // Validate request body against the schema
+      ReportRequestSchema.parse(requestBody);
 
-  async getAllReports(): Promise<AxiosResponse<GetAllReportsResponse>> {
-    return axiosConfig.get("/reports");
-  }
+      // Make API call with token in headers
+      const response = await axiosConfig.post<ReportResponse>(
+        "/api/report",
+        requestBody,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-  async getReportById(
-    id: string
-  ): Promise<AxiosResponse<ReportDetailResponse>> {
-    return axiosConfig.get(`/reports/${id}`);
-  }
-
-  async updateReport(id: string, data: create): Promise<AxiosResponse> {
-    return axiosConfig.put(`/reports/${id}`, data);
-  }
-
-  async deleteReport(id: string): Promise<AxiosResponse> {
-    return axiosConfig.delete(`/reports/${id}`);
-  }
+      return response;
+    } catch (error) {
+      // Log the error and rethrow it for further handling
+      console.error("Error in create report request:", error);
+      throw error;
+    }
+  };
 }
 
-export default new ReportService();
+export default ReportService;
