@@ -3,12 +3,17 @@ import MainHeader from "../../components/ui/main-header";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import Image from "next/image";
+import { Loader } from "lucide-react";
 import healthbadge from "../../../public/images/healthbadge.png";
 import enableLocation from "../../../assets/icons/enable location.svg";
 import disableLocation from "../../../assets/icons/disable location.svg";
 import chatIcon from "../../../assets/icons/chat Icon.svg";
 import { useState } from "react";
 import axios from "axios";
+import useHealthUpdate from "../../../hooks/useHealthUpdate";
+import type { HealthUpdate } from "../../../services/healthUpdateService";
+import ChatModal from "../../components/ChatModal"; // Import ChatModal
+import axiosConfig from "../../../config/axios";
 
 // Define the AddressComponent interface
 interface AddressComponent {
@@ -21,6 +26,14 @@ export default function HealthUpdate() {
   const [location, setLocation] = useState("");
   const [error, setError] = useState("");
   const [locationEnabled, setLocationEnabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [healthUpdate, setHealthUpdate] = useState<HealthUpdate | null>(null);
+  const [modalMessage, setModalMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [healthUpdateId, setHealthUpdateId] = useState<string | null>(null);
+  const [isChatOpen, setIsChatOpen] = useState(false); // State for chat modal
+  const { getHealthUpdatesQuery, useGetHealthUpdateByIdQuery } =
+    useHealthUpdate();
 
   const handleGetLocation = () => {
     if (navigator.geolocation) {
@@ -68,6 +81,47 @@ export default function HealthUpdate() {
     }
   };
 
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    setModalMessage("Your health update is on its way...");
+    setShowModal(true);
+    try {
+      const response = await axiosConfig.get(
+        `/api/report?location=${location}`
+      );
+      const data = response.data;
+      if (data.length > 0) {
+        setHealthUpdate(data[0]);
+        setModalMessage(`Health update for ${location}: ${data[0].update}`);
+      } else {
+        setModalMessage(
+          `There is no health update for ${location} at the moment. Check back later :( .`
+        );
+      }
+    } catch (error) {
+      setModalMessage(
+        "Failed to fetch health updates. Please try again later."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setHealthUpdate(null);
+  };
+
+  const handleChatIconClick = () => {
+    setIsChatOpen(true);
+  };
+
+  const handleCloseChat = () => {
+    setIsChatOpen(false);
+  };
+
+  const healthUpdateQuery = useGetHealthUpdateByIdQuery(healthUpdateId || "");
+
   return (
     <>
       <MainHeader />
@@ -94,11 +148,12 @@ export default function HealthUpdate() {
               onClick={handleToggleLocation}
             />
           </div>
-          <Link href="/">
-            <button className="bg-green-600 text-white w-full h-12 md:h-14 mb-3 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950">
-              Submit
-            </button>
-          </Link>
+          <button
+            onClick={handleSubmit}
+            className="bg-green-600 text-white w-full h-12 md:h-14 mb-3 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950"
+          >
+            Submit
+          </button>
           <div>
             <Image
               src={healthbadge}
@@ -126,11 +181,46 @@ export default function HealthUpdate() {
               relevant to your area by staying connected.
             </h3>
           </div>
-          <Link href="/chat" className="mt-10 md:mt-auto self-end">
+          <button
+            onClick={handleChatIconClick}
+            className="mt-10 md:mt-auto self-end"
+          >
             <Image src={chatIcon} alt="chat icon" width={60} height={60} />
-          </Link>
+          </button>
         </div>
       </div>
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg max-w-lg w-full">
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <Loader className="animate-spin mr-2" />
+                <span>{modalMessage}</span>
+              </div>
+            ) : (
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Health Update</h2>
+                <p>{modalMessage}</p>
+                <button
+                  onClick={closeModal}
+                  className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      {healthUpdateQuery && healthUpdateQuery.isSuccess && (
+        <div>
+          <h2>Health Update Details</h2>
+          <p>{JSON.stringify(healthUpdateQuery.data)}</p>
+        </div>
+      )}
+      {isChatOpen && (
+        <ChatModal isOpen={isChatOpen} onClose={handleCloseChat} />
+      )}
     </>
   );
 }

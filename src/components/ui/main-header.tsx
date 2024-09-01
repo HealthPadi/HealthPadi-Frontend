@@ -59,13 +59,13 @@ export default function MainHeader() {
               <ul className="flex gap-6 md:gap-12 items-center">
                 <li
                   className={
-                    isActive("/about")
+                    isActive("/dashboard")
                       ? "bg-yellow-300  border border-green-600 p-2 rounded-md"
                       : ""
                   }
                 >
-                  <Link href="/about" className="text-white ">
-                    About Us
+                  <Link href="/dashboard" className="text-white ">
+                    Home
                   </Link>
                 </li>
                 <li
@@ -92,13 +92,13 @@ export default function MainHeader() {
                 </li>
                 <li
                   className={
-                    isActive("/dashboard")
+                    isActive("/about")
                       ? "bg-yellow-300 text-green-600 border border-green-600 p-2 rounded-lg"
                       : ""
                   }
                 >
-                  <Link href="/dashboard" className="text-white">
-                    Home
+                  <Link href="/about" className="text-white">
+                    About
                   </Link>
                 </li>
               </ul>
@@ -131,10 +131,10 @@ export default function MainHeader() {
                   <div className="block md:hidden">
                     <DropdownMenuItem>
                       <Link
-                        href="/about"
+                        href="/home"
                         className="text-black hover:text-yellow-300"
                       >
-                        About Us
+                        Home
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
@@ -155,10 +155,10 @@ export default function MainHeader() {
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link
-                        href="/dashboard"
+                        href="/about"
                         className="text-black hover:text-yellow-300"
                       >
-                        Home
+                        About us
                       </Link>
                     </DropdownMenuItem>
                   </div>
