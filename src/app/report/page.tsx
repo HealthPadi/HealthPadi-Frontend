@@ -14,6 +14,9 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Loader } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
+import ChatModal from "../../components/ChatModal"; // Import ChatModal
+import axiosConfig from "../../../config/axios";
+import { Content } from "next/font/google";
 
 // Define the AddressComponent interface
 interface AddressComponent {
@@ -27,6 +30,7 @@ export default function CreateReport() {
   const [error, setError] = useState("");
   const [locationEnabled, setLocationEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false); // State for chat modal
 
   const {
     register,
@@ -36,8 +40,8 @@ export default function CreateReport() {
   } = useForm();
 
   const reportMutation = useMutation({
-    mutationFn: async (data: { description: string; location: string }) => {
-      return await axios.post("/api/report", data); // Adjust the endpoint as needed
+    mutationFn: async (data: { content: string; location: string }) => {
+      return await axiosConfig.post("/api/report", data); // Adjust the endpoint as needed
     },
     onSuccess: () => {
       toast.success("Report submitted successfully", {
@@ -106,15 +110,23 @@ export default function CreateReport() {
     if (!data.description) {
       setFormError("description", {
         type: "required",
-        message: "Description is required",
+        message: "description is required",
       });
       return;
     }
     setIsLoading(true);
     reportMutation.mutate({
-      description: data.description,
       location: location,
+      content: data.description,
     });
+  };
+
+  const handleChatIconClick = () => {
+    setIsChatOpen(true);
+  };
+
+  const handleCloseChat = () => {
+    setIsChatOpen(false);
   };
 
   return (
@@ -178,11 +190,14 @@ export default function CreateReport() {
               {isLoading ? <Loader className="animate-spin " /> : "Submit"}
             </button>
           </form>
-          <Link href="/chat" className="mt-10 self-end">
+          <button onClick={handleChatIconClick} className="mt-10 self-end">
             <Image src={chatIcon} alt="chat icon" width={60} height={60} />
-          </Link>
+          </button>
         </div>
       </div>
+      {isChatOpen && (
+        <ChatModal isOpen={isChatOpen} onClose={handleCloseChat} />
+      )}
     </>
   );
 }

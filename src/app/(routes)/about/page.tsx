@@ -4,8 +4,20 @@ import MainHeader from "@/components/ui/main-header";
 import Image from "next/image";
 import Link from "next/link";
 import chatIcon from "../../../../assets/icons/chat Icon.svg";
+import { useState } from "react";
+import ChatModal from "../../../components/ChatModal"; // Import ChatModal
 
 export default function AboutUs() {
+  const [isChatOpen, setIsChatOpen] = useState(false); // State for chat modal
+
+  const handleChatIconClick = () => {
+    setIsChatOpen(true);
+  };
+
+  const handleCloseChat = () => {
+    setIsChatOpen(false);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <MainHeader />
@@ -21,12 +33,15 @@ export default function AboutUs() {
           updates tailored to your specific location.
         </p>
         <div className="mt-8 sm:mt-12 md:mt-auto self-center mb-6 sm:mb-8 lg:mb-10">
-          <Link href="/chat">
+          <button onClick={handleChatIconClick}>
             <Image src={chatIcon} alt="chat icon" width={50} height={50} />
-          </Link>
+          </button>
         </div>
       </div>
       <Footer />
+      {isChatOpen && (
+        <ChatModal isOpen={isChatOpen} onClose={handleCloseChat} />
+      )}
     </div>
   );
 }

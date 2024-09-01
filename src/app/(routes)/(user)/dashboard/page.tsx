@@ -9,6 +9,7 @@ import HeroText from "@/components/ui/hero-text";
 import { useAuthState } from "../../../../../store/authStore";
 import Link from "next/link";
 import chatIcon from "../../../../../assets/icons/chat Icon.svg";
+import ChatModal from "../../../../components/ChatModal"; // Import the ChatModal component
 
 export default function Home() {
   const [isChatModalVisible, setIsChatModalVisible] = useState(false);
@@ -48,12 +49,18 @@ export default function Home() {
             </p>
             <p>Stay informed, stay healthy!</p>
           </div>
-          <div className="flex-none ml-2 md:ml-4 mt-4 lg:mt-0 cursor-pointer">
+          <div
+            className="flex-none ml-2 md:ml-4 mt-4 lg:mt-0 cursor-pointer"
+            onClick={openChatModal} // Add the onClick event to open the chat modal
+          >
             <Image src={chatIcon} alt="chat icon" width={60} height={60} />
           </div>
         </div>
       </main>
       <Footer />
+
+      {/* Include the ChatModal component and pass the necessary props */}
+      <ChatModal isOpen={isChatModalVisible} onClose={closeChatModal} />
     </>
   );
 }

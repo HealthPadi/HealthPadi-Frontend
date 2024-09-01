@@ -1,11 +1,12 @@
 import { z } from "zod";
 import axiosConfig from "../config/axios";
 import { AxiosResponse } from "axios";
+import { Content } from "next/font/google";
 
 // Define the request and response schemas using Zod
 const ReportRequestSchema = z.object({
-  description: z.string(),
   location: z.string().optional(),
+  Content: z.string(),
 });
 
 const ReportResponseSchema = z.object({
@@ -18,10 +19,10 @@ export type ReportRequest = z.infer<typeof ReportRequestSchema>;
 export type ReportResponse = z.infer<typeof ReportResponseSchema>;
 
 class ReportService {
-  static createReport = async (
+  async createReport(
     requestBody: ReportRequest,
     token: string
-  ): Promise<AxiosResponse<ReportResponse>> => {
+  ): Promise<AxiosResponse<ReportResponse>> {
     try {
       // Validate request body against the schema
       ReportRequestSchema.parse(requestBody);
@@ -43,7 +44,7 @@ class ReportService {
       console.error("Error in create report request:", error);
       throw error;
     }
-  };
+  }
 }
 
-export default ReportService;
+export default new ReportService();
