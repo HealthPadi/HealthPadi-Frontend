@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import axiosConfig from "../config/axios";
 import { AxiosResponse } from "axios";
-// import HealthUpdate from "../src/app/update/page";
 
 export interface HealthUpdate {
   reportId: string;

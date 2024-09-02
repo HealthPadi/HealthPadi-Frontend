@@ -16,12 +16,6 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
   const { createChatMutation } = useChat();
   const { user } = useAuthState(); // Get the currently logged-in user
 
-  // useEffect(() => {
-  //   if (getChatQuery.data?.chats[0]?.chatHistory) {
-  //     setChatHistory(getChatQuery.data.chats[0].chatHistory);
-  //   }
-  // }, [getChatQuery.data]);
-
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
       const userMessage = { role: "user", content: newMessage };
@@ -53,7 +47,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-md w-full max-w-3xl">
+      <div className="bg-white p-6 rounded-md w-full max-w-3xl h-[80vh] flex flex-col">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">HealthPadi AI</h2>
           <button onClick={onClose} className="text-red-500">
@@ -61,7 +55,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        <div className="chat-history overflow-y-auto max-h-60 mb-4">
+        <div className="chat-history overflow-y-auto flex-grow mb-4">
           {chatHistory.map((message, index) => (
             <div
               key={index}
@@ -100,7 +94,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             className="flex-grow p-2 border border-gray-300 rounded-md"
-            placeholder="Meassage HealthPadi AI..."
+            placeholder="Message HealthPadi AI..."
           />
           <button
             onClick={handleSendMessage}
