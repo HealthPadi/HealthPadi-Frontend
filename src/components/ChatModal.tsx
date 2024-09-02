@@ -45,7 +45,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
         }
       );
 
-      setNewMessage(""); // Clear the input field after sending the message
+      setNewMessage("");
     }
   };
 

@@ -16,7 +16,6 @@ import { Loader } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import ChatModal from "../../components/ChatModal"; // Import ChatModal
 import axiosConfig from "../../../config/axios";
-import { Content } from "next/font/google";
 
 // Define the AddressComponent interface
 interface AddressComponent {
@@ -40,7 +39,12 @@ export default function CreateReport() {
   } = useForm();
 
   const reportMutation = useMutation({
-    mutationFn: async (data: { content: string; location: string }) => {
+    mutationFn: async (data: {
+      content: string;
+      location: string;
+      userId: string;
+      reportId: string;
+    }) => {
       return await axiosConfig.post("/api/report", data); // Adjust the endpoint as needed
     },
     onSuccess: () => {
@@ -106,6 +110,10 @@ export default function CreateReport() {
     }
   };
 
+  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocation(e.target.value);
+  };
+
   const onSubmit = (data: any) => {
     if (!data.description) {
       setFormError("description", {
@@ -117,7 +125,9 @@ export default function CreateReport() {
     setIsLoading(true);
     reportMutation.mutate({
       location: location,
+      userId: data.userId,
       content: data.description,
+      reportId: data.reportId,
     });
   };
 
@@ -158,7 +168,7 @@ export default function CreateReport() {
                 type="text"
                 placeholder="Location"
                 value={location}
-                readOnly
+                onChange={handleLocationChange}
                 className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
               />
               <Image

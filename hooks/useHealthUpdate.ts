@@ -5,7 +5,7 @@ const useHealthUpdate = () => {
   const getHealthUpdatesQuery = useQuery({
     queryKey: ["healthUpdates"],
     queryFn: async () => {
-      const response = await healthUpdateService.getAllHealthUpdates();
+      const response = await healthUpdateService.getHealthUpdate();
       return response.data;
     },
   });

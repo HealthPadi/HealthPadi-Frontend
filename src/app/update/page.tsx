@@ -81,6 +81,10 @@ export default function HealthUpdate() {
     }
   };
 
+  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocation(e.target.value);
+  };
+
   const handleSubmit = async () => {
     setIsLoading(true);
     setModalMessage("Your health update is on its way...");
@@ -136,7 +140,7 @@ export default function HealthUpdate() {
               type="text"
               placeholder="Location"
               value={location}
-              readOnly
+              onChange={handleLocationChange}
               className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
             />
             <Image
@@ -212,12 +216,12 @@ export default function HealthUpdate() {
           </div>
         </div>
       )}
-      {healthUpdateQuery && healthUpdateQuery.isSuccess && (
+      {/* {healthUpdateQuery && healthUpdateQuery.isSuccess && (
         <div>
           <h2>Health Update Details</h2>
           <p>{JSON.stringify(healthUpdateQuery.data)}</p>
         </div>
-      )}
+      )} */}
       {isChatOpen && (
         <ChatModal isOpen={isChatOpen} onClose={handleCloseChat} />
       )}

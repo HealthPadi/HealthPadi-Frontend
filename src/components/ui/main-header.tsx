@@ -131,7 +131,7 @@ export default function MainHeader() {
                   <div className="block md:hidden">
                     <DropdownMenuItem>
                       <Link
-                        href="/home"
+                        href="/dashboard"
                         className="text-black hover:text-yellow-300"
                       >
                         Home
