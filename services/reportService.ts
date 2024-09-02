@@ -5,13 +5,16 @@ import { Content } from "next/font/google";
 
 // Define the request and response schemas using Zod
 const ReportRequestSchema = z.object({
-  location: z.string().optional(),
-  Content: z.string(),
+  userId: z.string(),
+  content: z.string(),
+  location: z.string(),
 });
 
 const ReportResponseSchema = z.object({
-  message: z.string(),
   reportId: z.string(),
+  userId: z.string(),
+  content: z.string(),
+  location: z.string(),
 });
 
 // Define TypeScript types based on Zod schemas

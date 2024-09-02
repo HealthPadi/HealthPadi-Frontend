@@ -10,7 +10,7 @@ export interface HealthUpdate {
   content: string;
 }
 
-export interface GetAllHealthUpdatesResponse {
+export interface GetHealthUpdateResponse {
   status: string;
   data: HealthUpdate[];
 }
@@ -25,10 +25,10 @@ type HealthUpdateDetailResponse = {
 };
 
 class HealthUpdateService {
-  async getAllHealthUpdates(): Promise<
-    AxiosResponse<GetAllHealthUpdatesResponse, any>
+  async getHealthUpdate(): Promise<
+    AxiosResponse<GetHealthUpdateResponse, any>
   > {
-    return (await axiosConfig.get)<GetAllHealthUpdatesResponse>("/api/report");
+    return (await axiosConfig.get)<GetHealthUpdateResponse>("/api/report");
   }
 
   async getHealthUpdateById(
