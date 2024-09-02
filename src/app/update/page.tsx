@@ -93,10 +93,10 @@ export default function HealthUpdate() {
       const response = await axiosConfig.get(
         `/api/report?location=${location}`
       );
-      const data = response.data.data; // Access the nested data
+      const data = response.data;
       if (data.length > 0) {
         setHealthUpdate(data[0]);
-        setModalMessage(`Health update for ${location}: ${data[0].content}`);
+        setModalMessage(`Health update for ${location}: ${data[0].update}`);
       } else {
         setModalMessage(
           `There is no health update for ${location} at the moment. Check back later :( .`

@@ -35,10 +35,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
         {
           onSuccess: (data) => {
             console.log("Mutation Success:", data); // Debugging log
-            const aiMessage: ChatHistoryItem = {
-              role: "assistant",
-              content: data,
-            };
+            const aiMessage: ChatHistoryItem = { role: "ai", content: data };
             setChatHistory((prev) => [...prev, aiMessage]);
             console.log("Updated Chat History:", chatHistory); // Debugging log
           },
@@ -72,10 +69,10 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
                 message.role === "user" ? "justify-end" : "justify-start"
               }`}
             >
-              {message.role === "assistant" && (
+              {message.role === "ai" && (
                 <Avatar className="mr-2 bg-white p-1">
                   <AvatarFallback className="bg-green-500 text-white">
-                    A
+                    AI
                   </AvatarFallback>
                 </Avatar>
               )}
