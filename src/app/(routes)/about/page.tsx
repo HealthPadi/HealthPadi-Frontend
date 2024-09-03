@@ -1,3 +1,4 @@
+//This is the about us page of the application that provides information about the application and its features.
 "use client";
 import Footer from "@/components/ui/footer";
 import MainHeader from "@/components/ui/main-header";
@@ -5,10 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 import chatIcon from "../../../../assets/icons/chat Icon.svg";
 import { useState } from "react";
-import ChatModal from "../../../components/ChatModal"; // Import ChatModal
+import ChatModal from "../../../components/ChatModal";
 
 export default function AboutUs() {
-  const [isChatOpen, setIsChatOpen] = useState(false); // State for chat modal
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const handleChatIconClick = () => {
     setIsChatOpen(true);

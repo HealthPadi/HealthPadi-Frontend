@@ -1,3 +1,4 @@
+//This page is the create report page that allows users to create a health report. It allows users to input their location and a description of their health report. It also allows users to enable or disable their location and to chat with a health professional.
 "use client";
 import Image from "next/image";
 import { useState } from "react";
@@ -12,10 +13,12 @@ import MainHeader from "../../components/ui/main-header";
 import FormError from "@/components/FormError";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Loader } from "lucide-react";
+import { Loader, User } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import ChatModal from "../../components/ChatModal"; // Import ChatModal
+import ChatModal from "../../components/ChatModal";
 import axiosConfig from "../../../config/axios";
+import { useAuthState } from "../../../store/authStore";
+import useReport from "../../../hooks/useReport";
 
 // Define the AddressComponent interface
 interface AddressComponent {
@@ -29,7 +32,9 @@ export default function CreateReport() {
   const [error, setError] = useState("");
   const [locationEnabled, setLocationEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false); // State for chat modal
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const { user } = useAuthState();
+  const { createReportMutation } = useReport();
 
   const {
     register,
@@ -37,32 +42,6 @@ export default function CreateReport() {
     setError: setFormError,
     formState: { errors },
   } = useForm();
-
-  const reportMutation = useMutation({
-    mutationFn: async (data: {
-      content: string;
-      location: string;
-      userId: string;
-      reportId: string;
-    }) => {
-      return await axiosConfig.post("/api/report", data); // Adjust the endpoint as needed
-    },
-    onSuccess: () => {
-      toast.success("Report submitted successfully", {
-        duration: 3000,
-        icon: "🎉",
-      });
-    },
-    onError: () => {
-      toast.error("Report submission failed", {
-        duration: 3000,
-        icon: "❌",
-      });
-    },
-    onSettled: () => {
-      setIsLoading(false);
-    },
-  });
 
   const handleGetLocation = () => {
     if (navigator.geolocation) {
@@ -118,16 +97,16 @@ export default function CreateReport() {
     if (!data.description) {
       setFormError("description", {
         type: "required",
-        message: "description is required",
+        message: "Description is required",
       });
+
       return;
     }
     setIsLoading(true);
-    reportMutation.mutate({
+    createReportMutation.mutate({
       location: location,
-      userId: data.userId,
+      userId: user?.id?.toString() ?? "",
       content: data.description,
-      reportId: data.reportId,
     });
   };
 
@@ -195,7 +174,7 @@ export default function CreateReport() {
             <button
               type="submit"
               disabled={isLoading}
-              className=" bg-green-600 text-white w-full h-12 md:h-14 mb-3 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950 text-center"
+              className=" bg-green-600 text-white w-full h-12 md:h-14 mb-3 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950 text-center flex items-center justify-center"
             >
               {isLoading ? <Loader className="animate-spin " /> : "Submit"}
             </button>

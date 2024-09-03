@@ -1,7 +1,9 @@
+//This is the axios configuration file that sets up the base URL and headers for the axios instance. It also sets up interceptors to add the auth token to the headers of all requests. This file is used to make requests to the backend API.
+
 import axios from "axios";
 
 const axiosConfig = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL, // Ensure this is correct
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   headers: {
     "Content-Type": "application/json",
   },

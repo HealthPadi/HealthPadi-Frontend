@@ -1,3 +1,4 @@
+//This is the feed service that fetches feeds from the backend.
 import { ReactNode } from "react";
 import axiosConfig from "../config/axios";
 import { AxiosResponse } from "axios";

@@ -1,3 +1,4 @@
+//This is the auth service that handles user authentication.
 import { AxiosResponse } from "axios";
 import { z } from "zod";
 import axiosConfig from "../config/axios";

@@ -1,3 +1,4 @@
+//This is the user dashboard page that displays the feeds and allows the user to see more feeds and also navagate to other pages in the application.
 "use client";
 
 import { useState } from "react";
@@ -9,7 +10,7 @@ import HeroText from "@/components/ui/hero-text";
 import { useAuthState } from "../../../../../store/authStore";
 import Link from "next/link";
 import chatIcon from "../../../../../assets/icons/chat Icon.svg";
-import ChatModal from "../../../../components/ChatModal"; // Import the ChatModal component
+import ChatModal from "../../../../components/ChatModal";
 
 export default function Home() {
   const [isChatModalVisible, setIsChatModalVisible] = useState(false);

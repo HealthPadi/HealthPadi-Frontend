@@ -1,3 +1,5 @@
+//This is the feeds page that displays the feeds from the AI.It displays the feeds in a card format and allows the user to click on a card to view the full content of the feed. It also displays a modal with the full content of the feed when a card is clicked.
+
 "use client";
 
 import MainHeader from "@/components/ui/main-header";

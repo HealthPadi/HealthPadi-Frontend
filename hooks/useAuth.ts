@@ -1,3 +1,4 @@
+//This is the auth hook that is used to handle authentication. It uses the useMutation and useQuery hooks from react-query to handle sign up, login, and reset password. It also uses the AuthService to handle authentication. It returns the signUpMutation, loginMutation, resetPasswordMutation, googleLogin, user, token, setUser, setToken, clearAuth, and logout functions that can be used to handle authentication.
 import AuthService, {
   RegisterRequest,
   LoginRequest,

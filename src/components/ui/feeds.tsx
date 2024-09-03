@@ -1,3 +1,4 @@
+//This is the feeds page that displays the feeds from the AI.It displays the feeds in a card format and allows the user to click on a card to view the full content of the feed. It also displays a modal with the full content of the feed when a card is clicked.
 import {
   Card,
   CardContent,
@@ -114,10 +115,10 @@ export default function Feeds({ limit }: FeedsProps) {
       </div>
       {selectedFeed && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg max-w-lg w-full">
+          <div className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-full overflow-y-auto">
             <h2 className="text-2xl font-bold mb-4">{selectedFeed.title}</h2>
             <p className="mb-4">{selectedFeed.description}</p>
-            <div>
+            <div className="mb-4">
               {formatContent(String(selectedFeed.remainingContent) || "")}
             </div>
             <button

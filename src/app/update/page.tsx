@@ -1,3 +1,4 @@
+//This is the health update page that allows users to get health updates based on their location. It provides a form for users to input their location and get health updates.
 "use client";
 import MainHeader from "../../components/ui/main-header";
 import { Input } from "@/components/ui/input";
@@ -12,7 +13,7 @@ import { useState } from "react";
 import axios from "axios";
 import useHealthUpdate from "../../../hooks/useHealthUpdate";
 import type { HealthUpdate } from "../../../services/healthUpdateService";
-import ChatModal from "../../components/ChatModal"; // Import ChatModal
+import ChatModal from "../../components/ChatModal";
 import axiosConfig from "../../../config/axios";
 
 // Define the AddressComponent interface
@@ -31,7 +32,7 @@ export default function HealthUpdate() {
   const [modalMessage, setModalMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [healthUpdateId, setHealthUpdateId] = useState<string | null>(null);
-  const [isChatOpen, setIsChatOpen] = useState(false); // State for chat modal
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const { getHealthUpdatesQuery, useGetHealthUpdateByIdQuery } =
     useHealthUpdate();
 
@@ -93,8 +94,8 @@ export default function HealthUpdate() {
       const response = await axiosConfig.get(
         `/api/report?location=${location}`
       );
-      const data = response.data;
-      if (data.length > 0) {
+      const data = response.data.data;
+       if (data.length > 0) {
         setHealthUpdate(data[0]);
         setModalMessage(`Health update for ${location}: ${data[0].update}`);
       } else {
@@ -197,7 +198,7 @@ export default function HealthUpdate() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg max-w-lg w-full">
             {isLoading ? (
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center ">
                 <Loader className="animate-spin mr-2" />
                 <span>{modalMessage}</span>
               </div>

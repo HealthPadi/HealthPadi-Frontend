@@ -1,3 +1,4 @@
+//This is the regristration page where users can sign into the application.
 "use client";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";

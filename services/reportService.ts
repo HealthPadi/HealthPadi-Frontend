@@ -1,3 +1,4 @@
+//This is the report service that handles the creation of reports in the application. It makes an API call to the server to create a report and returns the response from the server.
 import { z } from "zod";
 import axiosConfig from "../config/axios";
 import { AxiosResponse } from "axios";
@@ -29,7 +30,6 @@ class ReportService {
     try {
       // Validate request body against the schema
       ReportRequestSchema.parse(requestBody);
-
       // Make API call with token in headers
       const response = await axiosConfig.post<ReportResponse>(
         "/api/report",
