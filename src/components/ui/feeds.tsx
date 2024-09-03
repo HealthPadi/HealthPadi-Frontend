@@ -1,4 +1,4 @@
-//This is the feeds page that displays the feeds from the AI.It displays the feeds in a card format and allows the user to click on a card to view the full content of the feed. It also displays a modal with the full content of the feed when a card is clicked.
+// This is the feeds page that displays the feeds from the AI. It displays the feeds in a card format and allows the user to click on a card to view the full content of the feed. It also displays a modal with the full content of the feed when a card is clicked.
 import {
   Card,
   CardContent,
@@ -63,7 +63,7 @@ export default function Feeds({ limit }: FeedsProps) {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-20 pl-8 pr-8 mb-10">
+      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-20 px-4 md:px-8 lg:px-12 mb-10">
         {getFeedsQuery.isLoading && <div>Loading...</div>}
         {getFeedsQuery.isError && <div>Something went wrong</div>}
         {(getFeedsQuery?.data?.data?.length ?? 0) < 1 && (
@@ -84,9 +84,9 @@ export default function Feeds({ limit }: FeedsProps) {
                   remainingContent,
                 })
               }
-              className="w-full sm:w-auto"
+              className="w-full"
             >
-              <Card className="w-full sm:w-[500px] h-[520px] shadow-sm shadow-gray-600 cursor-pointer hover:shadow-md transition-shadow duration-200 flex flex-col">
+              <Card className="w-full sm:w-[300px] lg:w-[350px] h-[500px] shadow-sm shadow-gray-600 cursor-pointer hover:shadow-md transition-shadow duration-200 flex flex-col mx-auto">
                 <CardHeader className="h-[228px]">
                   <Image
                     src={healthbadge}
@@ -115,7 +115,7 @@ export default function Feeds({ limit }: FeedsProps) {
       </div>
       {selectedFeed && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-full overflow-y-auto">
+          <div className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-full overflow-y-auto lg:max-w-2xl lg:p-8">
             <h2 className="text-2xl font-bold mb-4">{selectedFeed.title}</h2>
             <p className="mb-4">{selectedFeed.description}</p>
             <div className="mb-4">

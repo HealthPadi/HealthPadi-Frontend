@@ -126,7 +126,7 @@ const Login = () => {
       <HeaderText />
       <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start p-5">
         <div className="flex-1 lg:mr-8 mb-5 lg:mb-0">
-          <div className="flex flex-col items-start mt-16 md:mt-28 pl-4 md:pl-8">
+          <div className="flex flex-col items-start mt-8 md:mt-28 pl-4 md:pl-8">
             <h1
               className="font-bold text-2xl md:text-4xl lg:text-5xl text-gray-600 leading-snug md:leading-tight"
               style={{ lineHeight: "1.2", whiteSpace: "normal" }}

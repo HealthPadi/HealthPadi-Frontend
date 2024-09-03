@@ -2,8 +2,8 @@
 
 export default function HeaderText() {
   return (
-    <header className="bg-gradient-to-r from-green-600 to-green-950 flex items-center justify-between p-6 md:p-8">
-      <h1 className="font-bold text-yellow-200 text-2xl md:text-3xl">
+    <header className="bg-gradient-to-r from-green-600 to-green-950 flex items-center justify-between p-3 md:p-4 lg:p-3">
+      <h1 className="font-bold text-yellow-200  md:text-3xl lg:text-2xl">
         HealthPadi
       </h1>
     </header>
