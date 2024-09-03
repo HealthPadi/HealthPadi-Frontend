@@ -1,3 +1,5 @@
+//This page is the main header component that is displayed at the top of the application. It contains the navigation links for the different pages of the application, as well as the user profile dropdown menu. It also contains the logic for displaying the user's profile information and updating the user's profile information.
+
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
@@ -13,7 +15,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
-import Modal from "../../components/ui/modal"; // Adjust the import path as needed
+import Modal from "../../components/ui/modal";
 import profileImg from "../../../assets/icons/profile.svg";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -21,9 +23,9 @@ import { useAuthState } from "../../../store/authStore";
 
 export default function MainHeader() {
   const { user } = useAuthState();
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // This state should be set based on actual login status
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState(profileImg); // State to store avatar URL
+  const [avatarUrl, setAvatarUrl] = useState(profileImg);
   const [isLoading, setIsLoading] = useState(true);
   const path = usePathname();
   const router = useRouter();
@@ -53,7 +55,6 @@ export default function MainHeader() {
       </h1>
       {isLoggedIn && (
         <>
-          {/* Navbar links for larger screens */}
           <div className="hidden md:flex flex-grow md:justify-start md:pl-48">
             <nav>
               <ul className="flex gap-6 md:gap-12 items-center">

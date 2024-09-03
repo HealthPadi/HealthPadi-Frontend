@@ -1,3 +1,4 @@
+// This is the login page where user can login to the application
 "use client";
 import { Input } from "@/components/ui/input";
 import React, { useEffect, useState } from "react";

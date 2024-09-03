@@ -1,3 +1,4 @@
+//This is the home page of the HealthPadi application. It displays a brief description of the application and its purpose. It also contains a call to action for users to get started or get health updates. The page also displays the latest feeds from the AI in a card format.
 "use client";
 import Link from "next/link";
 import Footer from "@/components/ui/footer";

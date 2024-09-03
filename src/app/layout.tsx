@@ -1,3 +1,4 @@
+//Ths is the layout page that wraps the entire application. It provides the global styles and layout for the application.
 "use client";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";

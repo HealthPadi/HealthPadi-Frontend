@@ -1,3 +1,5 @@
+//This is the footer component of the application that contains links to the social media pages of HealthPadi. It also contains the copyright information for the website.
+
 import Image from "next/image";
 import facebookLogo from "../../../assets/icons/logo-facebook.svg";
 import linkedinLogo from "../../../assets/icons/logo-instagram.svg";

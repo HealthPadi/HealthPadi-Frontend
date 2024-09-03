@@ -1,8 +1,10 @@
+//This page is the chat modal that appears when the chat button is clicked. It contains the chat history and the input field for sending messages to the AI. It also contains the logic for sending messages to the AI and displaying the response from the AI.
+
 import React, { useState, useEffect } from "react";
-import { useChat } from "../../hooks/useChat"; // Custom hook for chat logic
-import { Send } from "lucide-react"; // Importing Send icon from lucide-react
-import { Avatar, AvatarFallback } from "../components/ui/avatar"; // Importing Avatar components
-import { useAuthState } from "../../store/authStore"; // Custom hook for authentication
+import { useChat } from "../../hooks/useChat";
+import { Send } from "lucide-react";
+import { Avatar, AvatarFallback } from "../components/ui/avatar";
+import { useAuthState } from "../../store/authStore";
 import { ChatHistoryItem } from "../../services/chatService";
 
 interface ChatModalProps {
@@ -14,7 +16,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
   const [newMessage, setNewMessage] = useState("");
   const [chatHistory, setChatHistory] = useState<ChatHistoryItem[]>([]);
   const { createChatMutation } = useChat();
-  const { user } = useAuthState(); // Get the currently logged-in user
+  const { user } = useAuthState();
 
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
@@ -24,20 +26,20 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
       createChatMutation.mutate(
         {
           newMessage,
-          chatHistory: [...chatHistory], // Include the new user message in the chat history
+          chatHistory: [...chatHistory],
         },
         {
           onSuccess: (data) => {
-            console.log("Mutation Success:", data); // Debugging log
+            console.log("Mutation Success:", data);
             const aiMessage: ChatHistoryItem = {
               role: "assistant",
               content: data,
             };
             setChatHistory((prev) => [...prev, aiMessage]);
-            console.log("Updated Chat History:", chatHistory); // Debugging log
+            console.log("Updated Chat History:", chatHistory);
           },
           onError: (error) => {
-            console.error("Error sending message:", error); // Debugging log
+            console.error("Error sending message:", error);
           },
         }
       );

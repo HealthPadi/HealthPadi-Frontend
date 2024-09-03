@@ -1,3 +1,4 @@
+//This is the health update service that fetches health updates from the backend.
 import { ReactNode } from "react";
 import axiosConfig from "../config/axios";
 import { AxiosResponse } from "axios";

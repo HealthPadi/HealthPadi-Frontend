@@ -1,3 +1,4 @@
+//This is the chat service that fetches chats between the user and the Assistant from the backend.
 import axiosConfig from "../config/axios";
 import { AxiosResponse } from "axios";
 
