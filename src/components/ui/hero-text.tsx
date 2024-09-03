@@ -6,7 +6,7 @@ import docImg from "../../../public/images/doctors.png";
 
 export default function HeroText() {
   return (
-    <div className="px-6 md:px-24 pt-12 md:pt-24 pb-1 flex flex-col md:flex-row justify-between border-b border-b-gray-600">
+    <div className="px-6 md:px-24 pt-6 md:pt-24 pb-1 flex flex-col md:flex-row justify-between border-b border-b-gray-600">
       <div className="flex flex-col items-start">
         <h1
           className="font-bold text-3xl md:text-4xl lg:text-5xl text-gray-600 leading-snug md:leading-tight"
