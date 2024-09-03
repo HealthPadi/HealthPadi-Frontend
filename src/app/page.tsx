@@ -13,7 +13,7 @@ export default function Home() {
       <HeaderText />
       <main className="mb-10">
         <div className="px-6 md:px-24 pt-6 md:pt-24 pb-1 flex flex-col md:flex-row justify-between border-b border-b-gray-600">
-          <div className="flex flex-col items-start">
+        <div className="flex flex-col items-start">
             <h1
               className="font-bold text-3xl md:text-5xl text-gray-600 leading-snug md:leading-tight"
               style={{ lineHeight: "1.2", whiteSpace: "normal" }}

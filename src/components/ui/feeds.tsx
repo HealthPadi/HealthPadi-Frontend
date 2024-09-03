@@ -86,7 +86,7 @@ export default function Feeds({ limit }: FeedsProps) {
               }
               className="w-full sm:w-auto"
             >
-              <Card className="w-full sm:w-[500px] h-[520px] shadow-sm shadow-gray-600 cursor-pointer hover:shadow-md transition-shadow duration-200 flex flex-col">
+              <Card className="w-full sm:w-[420px] h-[520px] shadow-sm shadow-gray-600 cursor-pointer hover:shadow-md transition-shadow duration-200 flex flex-col">
                 <CardHeader className="h-[228px]">
                   <Image
                     src={healthbadge}
