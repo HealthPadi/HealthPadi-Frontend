@@ -1,5 +1,3 @@
-//This page is the main header component that is displayed at the top of the application. It contains the navigation links for the different pages of the application, as well as the user profile dropdown menu. It also contains the logic for displaying the user's profile information and updating the user's profile information.
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
@@ -49,45 +47,54 @@ export default function MainHeader() {
   const isActive = (href: string) => path.startsWith(href);
 
   return (
-    <header className="bg-gradient-to-r from-green-600 to-green-950 flex items-center justify-between p-6 md:p-8">
-      <h1 className="font-bold text-yellow-200 text-2xl md:text-3xl">
+    <header className="bg-gradient-to-r from-green-600 to-green-950 flex items-center justify-between p-3 md:p-4 lg:p-3">
+      <h1 className="font-bold text-yellow-200 text-2xl md:text-3xl lg:text-2xl">
         HealthPadi
       </h1>
       {isLoggedIn && (
         <>
-          <div className="hidden md:flex flex-grow md:justify-start md:pl-48">
+          <div className="hidden md:flex flex-grow md:justify-center md:pl-12 lg:pl-24 xl:pl-48">
             <nav>
-              <ul className="flex gap-6 md:gap-12 items-center">
+              <ul className="flex gap-4 md:gap-6 lg:gap-8 xl:gap-12 items-center justify-center">
                 <li
                   className={
                     isActive("/dashboard")
-                      ? "bg-yellow-300  border border-green-600 p-2 rounded-md"
+                      ? "bg-yellow-300 border border-green-600 p-2 rounded-md"
                       : ""
                   }
                 >
-                  <Link href="/dashboard" className="text-white ">
+                  <Link
+                    href="/dashboard"
+                    className="text-white text-sm md:text-base"
+                  >
                     Home
                   </Link>
                 </li>
                 <li
                   className={
                     isActive("/update")
-                      ? "bg-yellow-300  border border-green-600 p-2 rounded-lg"
+                      ? "bg-yellow-300 border border-green-600 p-2 rounded-lg"
                       : ""
                   }
                 >
-                  <Link href="/update" className="text-white ">
+                  <Link
+                    href="/update"
+                    className="text-white text-sm md:text-base"
+                  >
                     Health Update
                   </Link>
                 </li>
                 <li
                   className={
                     isActive("/report")
-                      ? "bg-yellow-300  border border-green-600 p-2 rounded-lg"
+                      ? "bg-yellow-300 border border-green-600 p-2 rounded-lg"
                       : ""
                   }
                 >
-                  <Link href="/report" className="text-white ">
+                  <Link
+                    href="/report"
+                    className="text-white text-sm md:text-base"
+                  >
                     Create Report
                   </Link>
                 </li>
@@ -98,7 +105,10 @@ export default function MainHeader() {
                       : ""
                   }
                 >
-                  <Link href="/about" className="text-white">
+                  <Link
+                    href="/about"
+                    className="text-white text-sm md:text-base"
+                  >
                     About
                   </Link>
                 </li>
