@@ -1,4 +1,3 @@
-//Ths is the layout page that wraps the entire application. It provides the global styles and layout for the application.
 "use client";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
@@ -6,6 +5,8 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import Footer from "../components/ui/footer"; // Import your Footer component
+
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"], // specify the weights you need
@@ -26,7 +27,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={`${montserrat.className}`}>
-      <body className={montserrat.className}>
+      <body className={`${montserrat.className} flex flex-col min-h-screen`}>
         <GoogleOAuthProvider
           clientId={
             process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ??
@@ -34,10 +35,10 @@ export default function RootLayout({
           }
         >
           <QueryClientProvider client={queryClient}>
-            <main>{children}</main>
+            <main className="flex-grow">{children}</main>
+            <Footer /> {/* Include Footer here */}
           </QueryClientProvider>
         </GoogleOAuthProvider>
-        <Toaster />
       </body>
     </html>
   );
