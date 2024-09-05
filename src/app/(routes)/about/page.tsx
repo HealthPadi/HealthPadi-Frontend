@@ -1,6 +1,5 @@
 //This is the about us page of the application that provides information about the application and its features.
 "use client";
-import Footer from "@/components/ui/footer";
 import MainHeader from "@/components/ui/main-header";
 import Image from "next/image";
 import Link from "next/link";
@@ -39,7 +38,6 @@ export default function AboutUs() {
           </button>
         </div>
       </div>
-      <Footer />
       {isChatOpen && (
         <ChatModal isOpen={isChatOpen} onClose={handleCloseChat} />
       )}

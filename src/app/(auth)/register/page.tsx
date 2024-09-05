@@ -1,4 +1,4 @@
-//This is the regristration page where users can sign into the application.
+// This is the registration page where users can sign into the application.
 "use client";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
@@ -76,20 +76,16 @@ const Register = () => {
     await signUpMutation.mutateAsync(payload, {
       onSuccess: (data) => {
         console.log(data);
-        // toast.success("Registration successful");
         toast.success("Registration successful", {
           duration: 1000,
-
           icon: "✅",
         });
         router.push("/dashboard");
       },
       onError: (error: any) => {
         console.log(error);
-        // toast.error(error.response?.data?.message);
         toast.error("Registration unsuccessful", {
           duration: 1000,
-
           icon: "❌",
         });
       },
@@ -99,9 +95,9 @@ const Register = () => {
   return (
     <>
       <HeaderText />
-      <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start p-5">
+      <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start p-5 mt-[-3rem]">
         <div className="flex-1 lg:mr-8 mb-5 lg:mb-0">
-          <div className="flex flex-col items-start mt-16 md:mt-28 pl-4 md:pl-8">
+          <div className="flex flex-col items-start mt-12 md:mt-24 pl-4 md:pl-8">
             <h1
               className="font-bold text-2xl md:text-4xl lg:text-5xl text-gray-600 leading-snug md:leading-tight"
               style={{ lineHeight: "1.2", whiteSpace: "normal" }}
@@ -115,7 +111,7 @@ const Register = () => {
           </div>
         </div>
         <div className="flex-1 flex flex-col items-center lg:items-start gap-4 w-full lg:w-auto">
-          <h1 className="font-bold text-lg lg:mt-28 text-gray-600">
+          <h1 className="font-bold text-lg lg:mt-24 text-gray-600">
             Get Started
           </h1>
           <form

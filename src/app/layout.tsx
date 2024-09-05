@@ -35,7 +35,10 @@ export default function RootLayout({
           }
         >
           <QueryClientProvider client={queryClient}>
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow">
+              {children}
+              <Toaster /> {/* Include Toaster here */}
+            </main>
             <Footer /> {/* Include Footer here */}
           </QueryClientProvider>
         </GoogleOAuthProvider>
