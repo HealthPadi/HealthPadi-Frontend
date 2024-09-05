@@ -132,6 +132,7 @@ const Login = () => {
               </div>
               <div className="flex justify-center items-center w-full mt-3">
                 <button
+                  type="button"
                   className="text-green-600 flex items-center"
                   onClick={googleSignin}
                 >
