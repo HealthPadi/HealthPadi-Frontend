@@ -2,7 +2,6 @@
 "use client";
 
 import { useState } from "react";
-import Footer from "@/components/ui/footer";
 import Feeds from "@/components/ui/feeds";
 import MainHeader from "@/components/ui/main-header";
 import Image from "next/image";
@@ -58,7 +57,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <Footer />
 
       {/* Include the ChatModal component and pass the necessary props */}
       <ChatModal isOpen={isChatModalVisible} onClose={closeChatModal} />
