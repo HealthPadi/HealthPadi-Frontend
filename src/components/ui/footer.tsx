@@ -8,7 +8,7 @@ import instagramLogo from "../../../assets/icons/logo-linkedin.svg";
 
 export default function Footer() {
   return (
-    <footer className="p-3 md:p-4 lg:p-3 bg-gradient-to-r from-green-600 to-green-950">
+    <footer className="p-3 md:p-4 lg:p-3 bg-gradient-to-r from-green-600 to-green-950 w-full">
       <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
         <div className="flex items-center justify-center gap-4">
           <Image

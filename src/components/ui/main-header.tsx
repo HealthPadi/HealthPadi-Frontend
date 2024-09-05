@@ -21,7 +21,6 @@ import { useAuthState } from "../../../store/authStore";
 
 export default function MainHeader() {
   const { user } = useAuthState();
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(profileImg);
   const [isLoading, setIsLoading] = useState(true);
@@ -51,7 +50,7 @@ export default function MainHeader() {
       <h1 className="font-bold text-yellow-200 text-2xl md:text-3xl lg:text-2xl">
         HealthPadi
       </h1>
-      {isLoggedIn && (
+      {user && (
         <>
           <div className="hidden md:flex flex-grow md:justify-center md:pl-12 lg:pl-24 xl:pl-48">
             <nav>

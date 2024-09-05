@@ -30,10 +30,10 @@ export default function Home() {
       <main className="mb-10">
         <HeroText />
         <Feeds limit={3} />
-        <div className="mt-12 flex flex-col items-center gap-6">
+        <div className="p-10 flex items-center justify-center">
           <Link
             href="/seeMore"
-            className="w-[120px] md:w-[130px] lg:w-[150px] h-[50px] md:h-[55px] lg:h-[60px] font-medium p-4 rounded-lg bg-gradient-to-r from-green-600 to-green-950 text-white text-center"
+            className="px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 font-medium rounded-lg bg-gradient-to-r from-green-600 to-green-950 text-white text-center"
           >
             See More
           </Link>

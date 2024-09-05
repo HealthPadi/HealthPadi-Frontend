@@ -124,25 +124,24 @@ const Login = () => {
   return (
     <>
       <HeaderText />
-      <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start p-5">
-        <div className="flex-1 lg:mr-8 mb-5 lg:mb-0">
-          <div className="flex flex-col items-start mt-8 md:mt-28 pl-4 md:pl-8">
+
+      <div className="flex flex-col lg:flex-row items-start lg:items-center gap-8 p-5 ">
+        <div className="flex-1 lg:mr-8 mb-8">
+          <div className="flex flex-col items-start ml-2 md:ml-4 lg:ml-6 xl:ml-8">
             <h1
-              className="font-bold text-2xl md:text-4xl lg:text-5xl text-gray-600 leading-snug md:leading-tight"
+              className="font-bold text-2xl md:text-3xl lg:text-4xl text-gray-600 leading-snug md:leading-tight"
               style={{ lineHeight: "1.2", whiteSpace: "normal" }}
             >
-              Connecting Communities
-              <br /> to Better Health
+              Connecting&nbsp;Communities
+              <br className="" /> to Better Health
             </h1>
             <p className="pt-2 md:pt-4 text-base md:text-xl lg:text-2xl text-gray-600 leading-relaxed">
               Bridging Health Gaps in Your Community
             </p>
           </div>
         </div>
-        <div className="flex-1 flex flex-col items-center lg:items-start gap-4 w-full lg:w-auto">
-          <h1 className="font-bold text-lg lg:mt-28 text-gray-600">
-            Welcome Back
-          </h1>
+        <div className="flex-1 flex flex-col items-center lg:items-start gap-4 w-full lg:w-auto mt-12 lg:ml-8">
+          <h1 className="font-bold text-base text-gray-600">Welcome Back</h1>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-full max-w-lg"
@@ -152,17 +151,17 @@ const Login = () => {
                 type="email"
                 placeholder="Email"
                 {...form.register("email")}
-                className="w-full h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
+                className="w-full h-10 mb-4 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
               />
               <FormError error={form.formState.errors.email?.message} />
               <Input
                 type="password"
                 placeholder="Password"
                 {...form.register("password")}
-                className="w-full h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
+                className="w-full h-10 mb-2 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
               />
               <FormError error={form.formState.errors.password?.message} />
-              <div className="flex justify-between w-full mb-3 whitespace-nowrap">
+              <div className="flex justify-between w-full  whitespace-nowrap">
                 <Link href="/reset" className="text-green-600">
                   Forgot Password
                 </Link>
@@ -172,16 +171,16 @@ const Login = () => {
                   </Link>
                 </p>
               </div>
-              <div className="mt-5 w-full">
+              <div className="mt-2 w-full">
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="bg-green-600 text-white w-full h-14 mb-3 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950 flex justify-center items-center"
+                  className="bg-green-600 text-white w-full h-10 mb-2 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950 flex justify-center items-center"
                 >
                   {isLoading ? <Loader className="animate-spin" /> : "Login"}
                 </button>
               </div>
-              <div className="flex justify-center items-center w-full mt-3">
+              <div className="flex justify-center items-center w-full mt-2">
                 <button
                   className="text-green-600 flex items-center"
                   onClick={googleSignin}

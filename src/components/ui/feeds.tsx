@@ -1,4 +1,3 @@
-// This is the feeds page that displays the feeds from the AI. It displays the feeds in a card format and allows the user to click on a card to view the full content of the feed. It also displays a modal with the full content of the feed when a card is clicked.
 import {
   Card,
   CardContent,
@@ -8,7 +7,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import Link from "next/link";
 import useFeed from "../../../hooks/useFeed";
 import healthbadge from "../../../public/images/healthbadge.png";
 import { useState } from "react";
@@ -63,7 +61,7 @@ export default function Feeds({ limit }: FeedsProps) {
 
   return (
     <>
-      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-20 px-4 md:px-8 lg:px-12 mb-10">
+      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-20 px-4 md:px-8 lg:px-12 mb-10">
         {getFeedsQuery.isLoading && <div>Loading...</div>}
         {getFeedsQuery.isError && <div>Something went wrong</div>}
         {(getFeedsQuery?.data?.data?.length ?? 0) < 1 && (
@@ -86,8 +84,8 @@ export default function Feeds({ limit }: FeedsProps) {
               }
               className="w-full"
             >
-              <Card className="w-full sm:w-[300px] lg:w-[350px] h-[500px] shadow-sm shadow-gray-600 cursor-pointer hover:shadow-md transition-shadow duration-200 flex flex-col mx-auto">
-                <CardHeader className="h-[228px]">
+              <Card className="w-full sm:max-w-xs md:max-w-sm lg:max-w-md h-full sm:h-80 md:h-96 lg:h-[32rem] shadow-sm shadow-gray-600 cursor-pointer hover:shadow-md transition-shadow duration-200 flex flex-col mx-auto">
+                <CardHeader className="h-40 sm:h-48 md:h-56 lg:h-72">
                   <Image
                     src={healthbadge}
                     width={373}
