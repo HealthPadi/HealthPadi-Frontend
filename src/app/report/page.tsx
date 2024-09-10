@@ -1,4 +1,3 @@
-//This page is the create report page that allows users to create a health report. It allows users to input their location and a description of their health report. It also allows users to enable or disable their location and to chat with a health professional.
 "use client";
 import Image from "next/image";
 import { useState } from "react";
@@ -33,6 +32,8 @@ export default function CreateReport() {
   const [locationEnabled, setLocationEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
   const { user } = useAuthState();
   const { createReportMutation } = useReport();
 
@@ -103,11 +104,31 @@ export default function CreateReport() {
       return;
     }
     setIsLoading(true);
-    createReportMutation.mutate({
-      location: location,
-      userId: user?.id?.toString() ?? "",
-      content: data.description,
-    });
+    createReportMutation.mutate(
+      {
+        location: location,
+        userId: user?.id?.toString() ?? "",
+        content: data.description,
+      },
+      {
+        onSuccess: () => {
+          setIsLoading(false);
+          setModalMessage(
+            "Yaay your report has been submitted successfully 🎉"
+          );
+          setShowModal(true);
+        },
+        onError: () => {
+          setIsLoading(false);
+          setModalMessage("Failed to submit report. Please try again later.");
+          setShowModal(true);
+        },
+      }
+    );
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   const handleChatIconClick = () => {
@@ -131,8 +152,8 @@ export default function CreateReport() {
           <Image
             src={healthPadi}
             alt="an image of a hospital"
-            width={200}
-            height={200}
+            width={100}
+            height={100}
             unoptimized
             className="mx-auto md:w-auto"
           />
@@ -184,6 +205,22 @@ export default function CreateReport() {
           </button>
         </div>
       </div>
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg max-w-lg w-full">
+            <div>
+              <h2 className="text-2xl font-bold mb-4">Report Submission</h2>
+              <p>{modalMessage}</p>
+              <button
+                onClick={closeModal}
+                className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {isChatOpen && (
         <ChatModal isOpen={isChatOpen} onClose={handleCloseChat} />
       )}
