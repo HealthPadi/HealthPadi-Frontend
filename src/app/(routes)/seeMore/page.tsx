@@ -5,6 +5,7 @@ import HeaderText from "@/components/ui/header-text";
 import MainHeader from "@/components/ui/main-header";
 import Feeds from "@/components/ui/feeds";
 import { useAuthState } from "../../../../store/authStore";
+
 export default function FeedPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useAuthState();
@@ -26,7 +27,7 @@ export default function FeedPage() {
       {isLoggedIn && <MainHeader />}
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-4xl font-bold text-green-600 mt-4">Health Feeds</h1>
-        <div className="mb-32">
+        <div className="mt-[-48px]">
           <Feeds />
         </div>
       </div>

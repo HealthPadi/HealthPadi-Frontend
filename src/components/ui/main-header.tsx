@@ -52,7 +52,7 @@ export default function MainHeader() {
       </h1>
       {user && (
         <>
-          <div className="hidden md:flex flex-grow md:justify-center md:pl-12 lg:pl-24 xl:pl-48">
+          <div className="hidden md:flex flex-grow md:justify-center ">
             <nav>
               <ul className="flex gap-4 md:gap-6 lg:gap-8 xl:gap-12 items-center justify-center">
                 <li

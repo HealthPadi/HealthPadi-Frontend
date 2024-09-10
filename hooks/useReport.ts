@@ -14,10 +14,7 @@ const useReport = () => {
   const createReportMutation = useMutation({
     mutationFn: async (data: ReportRequest) => {
       const response = await reportService.createReport(data, token);
-      toast.success("Report submitted successfully", {
-        duration: 3000,
-        icon: "🎉",
-      });
+
       return response.data;
     },
     onError: (error: AxiosError) => {

@@ -10,7 +10,8 @@ import Image from "next/image";
 import useFeed from "../../../hooks/useFeed";
 import healthbadge from "../../../public/images/healthbadge.png";
 import { useState } from "react";
-import { Feed } from "../../../services/feedService"; // Adjust the path as necessary
+import { Feed } from "../../../services/feedService";
+import { Loader } from "lucide-react";
 
 interface FeedsProps {
   limit?: number;
@@ -62,10 +63,17 @@ export default function Feeds({ limit }: FeedsProps) {
   return (
     <>
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-20 px-4 md:px-8 lg:px-12 mb-10">
-        {getFeedsQuery.isLoading && <div>Loading...</div>}
+        {getFeedsQuery.isLoading && (
+          <div className="flex flex-col justify-center items-center w-full h-64">
+            <Loader className="animate-spin text-green-500" size={40} />
+            <p className="mt-4 text-gray-600">Please wait, feeds are loading</p>
+          </div>
+        )}
         {getFeedsQuery.isError && <div>Something went wrong</div>}
-        {(getFeedsQuery?.data?.data?.length ?? 0) < 1 && (
-          <div>No posts available at the moment</div>
+        {!getFeedsQuery.isLoading && (feedsToDisplay?.length ?? 0) < 1 && (
+          <div className="flex justify-center items-center w-full h-64">
+            No posts available at the moment
+          </div>
         )}
         {feedsToDisplay?.map((feed: Feed, index: number) => {
           const { title, description, remainingContent } = splitContent(
