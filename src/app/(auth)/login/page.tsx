@@ -13,8 +13,8 @@ import googleLogo from "../../../../assets/icons/logo-google.svg";
 import Image from "next/image";
 import HeaderText from "@/components/ui/header-text";
 import FormError from "@/components/FormError";
-import useAuth from "../../../../hooks/useAuth";
-import axiosConfig from "../../../../config/axios";
+import useAuth from "../../../hooks/useAuth";
+import axiosConfig from "../../../config/axios";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);

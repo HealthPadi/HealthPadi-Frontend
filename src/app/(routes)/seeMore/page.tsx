@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import HeaderText from "@/components/ui/header-text";
 import MainHeader from "@/components/ui/main-header";
 import Feeds from "@/components/ui/feeds";
-import { useAuthState } from "../../../../store/authStore";
+import { useAuthState } from "../../../store/authStore";
 
 export default function FeedPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

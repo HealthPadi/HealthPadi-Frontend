@@ -1,4 +1,3 @@
-//This is the health update page that allows users to get health updates based on their location. It provides a form for users to input their location and get health updates.
 "use client";
 import MainHeader from "../../components/ui/main-header";
 import { Input } from "@/components/ui/input";
@@ -9,12 +8,12 @@ import healthbadge from "../../../public/images/healthbadge.png";
 import enableLocation from "../../../assets/icons/enable location.svg";
 import disableLocation from "../../../assets/icons/disable location.svg";
 import chatIcon from "../../../assets/icons/chat Icon.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import useHealthUpdate from "../../../hooks/useHealthUpdate";
-import type { HealthUpdate } from "../../../services/healthUpdateService";
+import useHealthUpdate from "../../hooks/useHealthUpdate";
+import type { HealthUpdate } from "../../services/healthUpdateService";
 import ChatModal from "../../components/ChatModal";
-import axiosConfig from "../../../config/axios";
+import axiosConfig from "../../config/axios";
 
 // Define the AddressComponent interface
 interface AddressComponent {
@@ -33,8 +32,30 @@ export default function HealthUpdate() {
   const [showModal, setShowModal] = useState(false);
   const [healthUpdateId, setHealthUpdateId] = useState<string | null>(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const { getHealthUpdatesQuery, useGetHealthUpdateByIdQuery } =
     useHealthUpdate();
+
+  useEffect(() => {
+    if (location && !locationEnabled) {
+      const fetchSuggestions = async () => {
+        try {
+          const response = await axios.get(
+            `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${location}&key=AIzaSyAdi6ZdkYtYS5v-v-LVAYGwtobv7PMLz8o`
+          );
+          const predictions = response.data.predictions;
+          setSuggestions(
+            predictions.map((prediction: any) => prediction.description)
+          );
+        } catch (error) {
+          console.error("Error fetching location suggestions:", error);
+        }
+      };
+      fetchSuggestions();
+    } else {
+      setSuggestions([]);
+    }
+  }, [location, locationEnabled]);
 
   const handleGetLocation = () => {
     if (navigator.geolocation) {
@@ -84,6 +105,14 @@ export default function HealthUpdate() {
 
   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocation(e.target.value);
+    if (e.target.value) {
+      setLocationEnabled(false);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setLocation(suggestion);
+    setSuggestions([]);
   };
 
   const handleSubmit = async () => {
@@ -136,22 +165,38 @@ export default function HealthUpdate() {
             Get Health Update
           </h1>
           <div className="flex items-center mb-3"></div>
-          <div className="flex items-center mb-3">
+          <div className="flex items-center mb-3 relative">
             <Input
               type="text"
               placeholder="Location"
               value={location}
               onChange={handleLocationChange}
               className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
+              disabled={locationEnabled}
             />
             <Image
               src={locationEnabled ? enableLocation : disableLocation}
               alt={locationEnabled ? "disable location" : "enable location"}
               width={30}
               height={30}
-              className="ml-3 cursor-pointer"
-              onClick={handleToggleLocation}
+              className={`ml-3 cursor-pointer ${
+                location ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              onClick={location ? undefined : handleToggleLocation}
             />
+            {suggestions.length > 0 && (
+              <ul className="absolute top-full left-0 right-0 bg-white border border-gray-300 z-10">
+                {suggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    className="p-2 cursor-pointer hover:bg-gray-200"
+                    onClick={() => handleSuggestionClick(suggestion)}
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <button
             onClick={handleSubmit}
@@ -176,19 +221,19 @@ export default function HealthUpdate() {
               Health <br />
               Updates
             </h1>
-            <p className="mb-9 mt-8 text-base md:text-lg text-gray-500">
+            <p className=" mt-8 text-base md:text-lg text-gray-500">
               You can get a detailed health report tailored to
               <br /> a location, helping you stay informed and
               <br /> proactive about your health.
             </p>
-            <h3 className="text-gray-800 text-lg md:text-xl font-bold mt-10 md:mt-56">
+            {/* <h3 className="text-gray-800 text-lg md:text-xl font-bold mt-5 md:mt-25 ">
               Stay informed about the latest health news, alerts, and advice
               relevant to your area by staying connected.
-            </h3>
+            </h3> */}
           </div>
           <button
             onClick={handleChatIconClick}
-            className="mt-10 md:mt-auto self-end"
+            className="mb-20 md:mt-auto self-end"
           >
             <Image src={chatIcon} alt="chat icon" width={60} height={60} />
           </button>

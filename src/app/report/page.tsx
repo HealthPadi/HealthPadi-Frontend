@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Input } from "../../components/ui/input";
 import enableLocation from "../../../assets/icons/enable location.svg";
@@ -15,9 +15,9 @@ import toast from "react-hot-toast";
 import { Loader, User } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import ChatModal from "../../components/ChatModal";
-import axiosConfig from "../../../config/axios";
-import { useAuthState } from "../../../store/authStore";
-import useReport from "../../../hooks/useReport";
+import axiosConfig from "../../config/axios";
+import { useAuthState } from "../../store/authStore";
+import useReport from "../../hooks/useReport";
 
 // Define the AddressComponent interface
 interface AddressComponent {
@@ -34,6 +34,7 @@ export default function CreateReport() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const { user } = useAuthState();
   const { createReportMutation } = useReport();
 
@@ -44,6 +45,27 @@ export default function CreateReport() {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    if (location && !locationEnabled) {
+      const fetchSuggestions = async () => {
+        try {
+          const response = await axios.get(
+            `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${location}&key=AIzaSyAdi6ZdkYtYS5v-v-LVAYGwtobv7PMLz8o`
+          );
+          const predictions = response.data.predictions;
+          setSuggestions(
+            predictions.map((prediction: any) => prediction.description)
+          );
+        } catch (error) {
+          console.error("Error fetching location suggestions:", error);
+        }
+      };
+      fetchSuggestions();
+    } else {
+      setSuggestions([]);
+    }
+  }, [location, locationEnabled]);
+
   const handleGetLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -51,7 +73,7 @@ export default function CreateReport() {
           const { latitude, longitude } = position.coords;
           try {
             const response = await axios.get(
-              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyAdi6ZdkYtYS5v-v-LVAYGwtobv7PMLz8o`
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=YOUR_API_KEY`
             );
             const addressComponents: AddressComponent[] =
               response.data.results[0].address_components;
@@ -92,6 +114,14 @@ export default function CreateReport() {
 
   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocation(e.target.value);
+    if (e.target.value) {
+      setLocationEnabled(false);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setLocation(suggestion);
+    setSuggestions([]);
   };
 
   const onSubmit = (data: any) => {
@@ -163,22 +193,38 @@ export default function CreateReport() {
             Create Report
           </h1>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex items-center mb-6">
+            <div className="flex items-center mb-6 relative">
               <Input
                 type="text"
                 placeholder="Location"
                 value={location}
                 onChange={handleLocationChange}
                 className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
+                disabled={locationEnabled}
               />
               <Image
                 src={locationEnabled ? enableLocation : disableLocation}
                 alt={locationEnabled ? "disable location" : "enable location"}
                 width={30}
                 height={30}
-                className="ml-3 cursor-pointer"
-                onClick={handleToggleLocation}
+                className={`ml-3 cursor-pointer ${
+                  location ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                onClick={location ? undefined : handleToggleLocation}
               />
+              {suggestions.length > 0 && (
+                <ul className="absolute top-full left-0 right-0 bg-white border border-gray-300 z-10">
+                  {suggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      className="p-2 cursor-pointer hover:bg-gray-200"
+                      onClick={() => handleSuggestionClick(suggestion)}
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
             <h1 className="text-xl font-bold mb-4 text-gray-600">
               Report Description
@@ -208,16 +254,23 @@ export default function CreateReport() {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg max-w-lg w-full">
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Report Submission</h2>
-              <p>{modalMessage}</p>
-              <button
-                onClick={closeModal}
-                className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Close
-              </button>
-            </div>
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <Loader className="animate-spin mr-2" />
+                <span>{modalMessage}</span>
+              </div>
+            ) : (
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Report Submission</h2>
+                <p>{modalMessage}</p>
+                <button
+                  onClick={closeModal}
+                  className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Close
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
