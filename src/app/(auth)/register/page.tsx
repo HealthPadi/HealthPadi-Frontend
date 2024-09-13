@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import googleLogo from "../../../../assets/icons/logo-google.svg";
 import Image from "next/image";
 import HeaderText from "@/components/ui/header-text";
-import useAuth from "../../../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import FormError from "@/components/FormError";
 

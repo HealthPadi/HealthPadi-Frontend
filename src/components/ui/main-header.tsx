@@ -17,7 +17,7 @@ import Modal from "../../components/ui/modal";
 import profileImg from "../../../assets/icons/profile.svg";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useAuthState } from "../../../store/authStore";
+import { useAuthState } from "../../store/authStore";
 
 export default function MainHeader() {
   const { user } = useAuthState();

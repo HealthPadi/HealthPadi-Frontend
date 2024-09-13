@@ -6,7 +6,7 @@ import Feeds from "@/components/ui/feeds";
 import MainHeader from "@/components/ui/main-header";
 import Image from "next/image";
 import HeroText from "@/components/ui/hero-text";
-import { useAuthState } from "../../../../../store/authStore";
+import { useAuthState } from "../../../../store/authStore";
 import Link from "next/link";
 import chatIcon from "../../../../../assets/icons/chat Icon.svg";
 import ChatModal from "../../../../components/ChatModal";

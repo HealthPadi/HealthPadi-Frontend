@@ -4,7 +4,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import { FaPlus } from "react-icons/fa";
 import Image from "next/image";
 import toast, { Toaster } from "react-hot-toast";
-import { useAuthState } from "../../../store/authStore";
+import { useAuthState } from "../../store/authStore";
 
 interface ModalProps {
   isVisible: boolean;

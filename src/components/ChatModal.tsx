@@ -1,11 +1,9 @@
-//This page is the chat modal that appears when the chat button is clicked. It contains the chat history and the input field for sending messages to the AI. It also contains the logic for sending messages to the AI and displaying the response from the AI.
-
 import React, { useState, useEffect } from "react";
-import { useChat } from "../../hooks/useChat";
+import { useChat } from "../hooks/useChat";
 import { Send } from "lucide-react";
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
-import { useAuthState } from "../../store/authStore";
-import { ChatHistoryItem } from "../../services/chatService";
+import { useAuthState } from "../store/authStore";
+import { ChatHistoryItem } from "../services/chatService";
 
 interface ChatModalProps {
   isOpen: boolean;
@@ -45,6 +43,12 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
       );
 
       setNewMessage("");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSendMessage();
     }
   };
 
@@ -98,6 +102,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
             className="flex-grow p-2 border border-gray-300 rounded-md"
             placeholder="Message HealthPadi AI..."
           />

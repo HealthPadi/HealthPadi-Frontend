@@ -7,10 +7,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import useFeed from "../../../hooks/useFeed";
+import useFeed from "../../hooks/useFeed";
 import healthbadge from "../../../public/images/healthbadge.png";
 import { useState } from "react";
-import { Feed } from "../../../services/feedService";
+import { Feed } from "../../services/feedService";
 import { Loader } from "lucide-react";
 
 interface FeedsProps {
