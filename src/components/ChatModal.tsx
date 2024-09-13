@@ -1,3 +1,4 @@
+//This is the ChatModal component that will be used to display the chat modal when the user clicks on the chat icon. The modal will contain the chat history and a text input field to send messages to the AI.
 import React, { useState, useEffect } from "react";
 import { useChat } from "../hooks/useChat";
 import { Send } from "lucide-react";
