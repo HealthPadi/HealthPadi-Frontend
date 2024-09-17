@@ -28,7 +28,7 @@ export default function FeedPage() {
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-4xl font-bold text-green-600 mt-4">Health Feeds</h1>
         <div className="mt-[-48px]">
-          <Feeds />
+          <Feeds limit={6} showPagination={true} />
         </div>
       </div>
     </>

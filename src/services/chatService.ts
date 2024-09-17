@@ -34,13 +34,13 @@ class ChatService {
     return axiosConfig.post("/api/ai/ai-chat-bot", data);
   }
 
-  // async getAllChats(): Promise<AxiosResponse<GetAllChatsResponse>> {
-  //   return axiosConfig.get("/api/ai/ai-chat-bot");
-  // }
+  async getAllChats(): Promise<AxiosResponse<GetAllChatsResponse>> {
+    return axiosConfig.get("/api/ai/ai-chat-bot");
+  }
 
-  // async getChatById(id: string): Promise<AxiosResponse<ChatDetailResponse>> {
-  //   return axiosConfig.get(`/chats/${id}`);
-  // }
+  async getChatById(id: string): Promise<AxiosResponse<ChatDetailResponse>> {
+    return axiosConfig.get(`/chats/${id}`);
+  }
 }
 
 export default new ChatService();

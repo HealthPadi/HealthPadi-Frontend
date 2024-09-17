@@ -1,4 +1,4 @@
-// This is the registration page where users can sign into the application.
+// Register.tsx
 "use client";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
@@ -14,11 +14,12 @@ import HeaderText from "@/components/ui/header-text";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import FormError from "@/components/FormError";
+import { Avatar, AvatarFallback } from "../../../components/ui/avatar"; // Assuming you have an Avatar component
 
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { signUpMutation } = useAuth();
+  const { signUpMutation, user } = useAuth();
 
   const RegisterSchema = z
     .object({
@@ -193,6 +194,13 @@ const Register = () => {
               </div>
             </div>
           </form>
+          {/* {user && (
+            // <div className="mt-5">
+            //   <Avatar className="bg-green-500 text-white">
+            //     {user.firstName.charAt(0).toUpperCase()}
+            //   </Avatar>
+            // </div>
+          )} */}
         </div>
       </div>
     </>

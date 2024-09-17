@@ -1,5 +1,5 @@
 //This is the health update service that fetches health updates from the backend.
-import { ReactNode } from "react";
+// healthUpdateService.ts
 import axiosConfig from "../config/axios";
 import { AxiosResponse } from "axios";
 
@@ -21,20 +21,23 @@ type HealthUpdateDetail = {
 };
 
 type HealthUpdateDetailResponse = {
+  data: any;
   healthUpdate: HealthUpdateDetail;
 };
 
 class HealthUpdateService {
-  async getHealthUpdate(): Promise<
-    AxiosResponse<GetHealthUpdateResponse, any>
-  > {
-    return (await axiosConfig.get)<GetHealthUpdateResponse>("/api/report");
+  async getHealthUpdate(): Promise<GetHealthUpdateResponse> {
+    const response = await axiosConfig.get<GetHealthUpdateResponse>(
+      "/api/report"
+    );
+    return response.data;
   }
 
-  async getHealthUpdateById(
-    id: string
-  ): Promise<AxiosResponse<HealthUpdateDetailResponse>> {
-    return axiosConfig.get(`/api/report/${id}`);
+  async getHealthUpdateById(id: string): Promise<HealthUpdateDetailResponse> {
+    const response = await axiosConfig.get<HealthUpdateDetailResponse>(
+      `/api/report/${id}`
+    );
+    return response.data;
   }
 }
 

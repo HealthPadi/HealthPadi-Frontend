@@ -12,14 +12,28 @@ import healthbadge from "../../../public/images/healthbadge.png";
 import { useState } from "react";
 import { Feed } from "../../services/feedService";
 import { Loader } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface FeedsProps {
   limit?: number;
+  showPagination?: boolean;
 }
 
-export default function Feeds({ limit }: FeedsProps) {
+export default function Feeds({
+  limit = 6,
+  showPagination = false,
+}: FeedsProps) {
   const { getFeedsQuery } = useFeed();
   const [selectedFeed, setSelectedFeed] = useState<Feed | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleCardClick = (feed: Feed) => {
     setSelectedFeed(feed);
@@ -56,9 +70,16 @@ export default function Feeds({ limit }: FeedsProps) {
     });
   };
 
-  const feedsToDisplay = limit
-    ? getFeedsQuery?.data?.data?.slice(0, limit)
-    : getFeedsQuery?.data?.data;
+  const feeds = getFeedsQuery?.data?.data || [];
+  const totalPages = Math.ceil(feeds.length / limit);
+  const feedsToDisplay = feeds.slice(
+    (currentPage - 1) * limit,
+    currentPage * limit
+  );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
@@ -70,12 +91,12 @@ export default function Feeds({ limit }: FeedsProps) {
           </div>
         )}
         {getFeedsQuery.isError && <div>Something went wrong</div>}
-        {!getFeedsQuery.isLoading && (feedsToDisplay?.length ?? 0) < 1 && (
+        {!getFeedsQuery.isLoading && feedsToDisplay.length === 0 && (
           <div className="flex justify-center items-center w-full h-64">
             No posts available at the moment
           </div>
         )}
-        {feedsToDisplay?.map((feed: Feed, index: number) => {
+        {feedsToDisplay.map((feed: Feed, index: number) => {
           const { title, description, remainingContent } = splitContent(
             feed.feedContent
           );
@@ -135,6 +156,49 @@ export default function Feeds({ limit }: FeedsProps) {
             </button>
           </div>
         </div>
+      )}
+      {showPagination && (
+        <Pagination className="mb-4">
+          <PaginationContent>
+            {currentPage > 1 && (
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  className="bg-green-600 text-white"
+                />
+              </PaginationItem>
+            )}
+            {[1, 2, 3].map((page) => (
+              <PaginationItem key={page}>
+                <PaginationLink
+                  href="#"
+                  isActive={page === currentPage}
+                  onClick={() => handlePageChange(page)}
+                  className={
+                    page === currentPage ? "bg-green-600 text-white" : ""
+                  }
+                >
+                  {page}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            {totalPages > 3 && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
+            {currentPage < totalPages && (
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  className="bg-green-600 text-white"
+                />
+              </PaginationItem>
+            )}
+          </PaginationContent>
+        </Pagination>
       )}
     </>
   );

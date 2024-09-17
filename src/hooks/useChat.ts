@@ -3,13 +3,13 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import chatService, { ChatRequest } from "../services/chatService";
 
 export const useChat = () => {
-  // const getChatQuery = useQuery({
-  //   queryKey: ["chats"],
-  //   queryFn: async () => {
-  //     const response = await chatService.getAllChats();
-  //     return response.data;
-  //   },
-  // });
+  const getChatQuery = useQuery({
+    queryKey: ["chats"],
+    queryFn: async () => {
+      const response = await chatService.getAllChats();
+      return response.data;
+    },
+  });
 
   const createChatMutation = useMutation({
     mutationFn: async (data: ChatRequest) => {
@@ -20,7 +20,7 @@ export const useChat = () => {
   });
 
   return {
-    // getChatQuery,
+    getChatQuery,
     createChatMutation,
   };
 };

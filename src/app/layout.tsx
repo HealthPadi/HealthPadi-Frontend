@@ -6,6 +6,7 @@ import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Footer from "../components/ui/footer"; // Import your Footer component
+import { ChatProvider } from "../context/chatContext"; // Import ChatProvider
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -35,11 +36,15 @@ export default function RootLayout({
           }
         >
           <QueryClientProvider client={queryClient}>
-            <main className="flex-grow">
-              {children}
-              <Toaster /> {/* Include Toaster here */}
-            </main>
-            <Footer /> {/* Include Footer here */}
+            <ChatProvider>
+              {" "}
+              {/* Wrap with ChatProvider */}
+              <main className="flex-grow">
+                {children}
+                <Toaster /> {/* Include Toaster here */}
+              </main>
+              <Footer /> {/* Include Footer here */}
+            </ChatProvider>
           </QueryClientProvider>
         </GoogleOAuthProvider>
       </body>
