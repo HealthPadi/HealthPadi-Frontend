@@ -14,7 +14,7 @@ export const useChat = () => {
   const createChatMutation = useMutation({
     mutationFn: async (data: ChatRequest) => {
       const response = await chatService.createChat(data);
-      console.log("AI Response:", response.data); // Debugging log
+      console.log("AI Response:", response.data);
       return response.data;
     },
   });
