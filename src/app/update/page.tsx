@@ -105,6 +105,7 @@ export default function HealthUpdate() {
 
   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocation(e.target.value);
+    setLocationEnabled(false); // Disable the toggle when typing
     if (e.target.value) {
       setLocationEnabled(false);
     }
@@ -126,7 +127,8 @@ export default function HealthUpdate() {
       const data = response.data.data;
        if (data.length > 0) {
         setHealthUpdate(data[0]);
-        setModalMessage(`Health update for ${location}: ${data[0].update}`);
+        setModalMessage(`Health update for ${location}: ${data}`);
+ 
       } else {
         setModalMessage(
           `There is no health update for ${location} at the moment. Check back later :( .`
@@ -179,10 +181,8 @@ export default function HealthUpdate() {
               alt={locationEnabled ? "disable location" : "enable location"}
               width={30}
               height={30}
-              className={`ml-3 cursor-pointer ${
-                location ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              onClick={location ? undefined : handleToggleLocation}
+              className={`ml-3 cursor-pointer`}
+              onClick={handleToggleLocation}
             />
             {suggestions.length > 0 && (
               <ul className="absolute top-full left-0 right-0 bg-white border border-gray-300 z-10">
@@ -221,19 +221,19 @@ export default function HealthUpdate() {
               Health <br />
               Updates
             </h1>
-            <p className=" mt-8 text-base md:text-lg text-gray-500">
+            <p className="mb-9 mt-8 text-base md:text-lg text-gray-500">
               You can get a detailed health report tailored to
               <br /> a location, helping you stay informed and
               <br /> proactive about your health.
             </p>
-            {/* <h3 className="text-gray-800 text-lg md:text-xl font-bold mt-5 md:mt-25 ">
+            {/* <h3 className="text-gray-800 text-lg md:text-xl font-bold mt-10 md:mt-56">
               Stay informed about the latest health news, alerts, and advice
               relevant to your area by staying connected.
             </h3> */}
           </div>
           <button
             onClick={handleChatIconClick}
-            className="mb-20 md:mt-auto self-end"
+            className="mb-10 md:mt-auto self-end"
           >
             <Image src={chatIcon} alt="chat icon" width={60} height={60} />
           </button>
@@ -262,12 +262,6 @@ export default function HealthUpdate() {
           </div>
         </div>
       )}
-      {/* {healthUpdateQuery && healthUpdateQuery.isSuccess && (
-        <div>
-          <h2>Health Update Details</h2>
-          <p>{JSON.stringify(healthUpdateQuery.data)}</p>
-        </div>
-      )} */}
       {isChatOpen && (
         <ChatModal isOpen={isChatOpen} onClose={handleCloseChat} />
       )}

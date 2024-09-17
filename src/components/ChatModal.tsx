@@ -1,10 +1,10 @@
-//This is the ChatModal component that will be used to display the chat modal when the user clicks on the chat icon. The modal will contain the chat history and a text input field to send messages to the AI.
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useChat } from "../hooks/useChat";
 import { Send } from "lucide-react";
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
 import { useAuthState } from "../store/authStore";
 import { ChatHistoryItem } from "../services/chatService";
+import { useChatContext } from "../context/chatContext";
 
 interface ChatModalProps {
   isOpen: boolean;
@@ -13,9 +13,10 @@ interface ChatModalProps {
 
 const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
   const [newMessage, setNewMessage] = useState("");
-  const [chatHistory, setChatHistory] = useState<ChatHistoryItem[]>([]);
+  const { chatHistory, setChatHistory } = useChatContext();
   const { createChatMutation } = useChat();
   const { user } = useAuthState();
+  const chatHistoryRef = useRef<HTMLDivElement>(null);
 
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
@@ -54,6 +55,12 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
+  useEffect(() => {
+    if (chatHistoryRef.current) {
+      chatHistoryRef.current.scrollTop = chatHistoryRef.current.scrollHeight;
+    }
+  }, [chatHistory]);
+
   if (!isOpen) return null;
 
   return (
@@ -66,7 +73,11 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        <div className="chat-history overflow-y-auto flex-grow mb-4">
+        <div
+          ref={chatHistoryRef}
+          className="chat-history overflow-y-auto flex-grow mb-4"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
           {chatHistory.map((message, index) => (
             <div
               key={index}
@@ -74,9 +85,9 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
                 message.role === "user" ? "justify-end" : "justify-start"
               }`}
             >
-              {message.role === "ai" && (
-                <Avatar className="mr-2 bg-white p-1">
-                  <AvatarFallback className="bg-green-500 text-white">
+              {message.role === "assistant" && (
+                <Avatar className="mr-1 bg-white p-1">
+                   <AvatarFallback className="bg-green-500 text-white">
                     AI
                   </AvatarFallback>
                 </Avatar>
@@ -89,7 +100,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
                 {message.content}
               </p>
               {message.role === "user" && (
-                <Avatar className="ml-2 bg-white p-1">
+                <Avatar className="ml-1 bg-white p-1">
                   <AvatarFallback className="bg-green-500 text-white">
                     {user?.firstName?.charAt(0).toUpperCase() || "U"}
                   </AvatarFallback>
