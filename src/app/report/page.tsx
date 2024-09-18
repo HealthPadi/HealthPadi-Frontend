@@ -73,7 +73,7 @@ export default function CreateReport() {
           const { latitude, longitude } = position.coords;
           try {
             const response = await axios.get(
-              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=YOUR_API_KEY`
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyAdi6ZdkYtYS5v-v-LVAYGwtobv7PMLz8o`
             );
             const addressComponents: AddressComponent[] =
               response.data.results[0].address_components;
@@ -114,6 +114,7 @@ export default function CreateReport() {
 
   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocation(e.target.value);
+    setLocationEnabled(false); // Disable the toggle when typing
     if (e.target.value) {
       setLocationEnabled(false);
     }
@@ -144,7 +145,7 @@ export default function CreateReport() {
         onSuccess: () => {
           setIsLoading(false);
           setModalMessage(
-            "Yaay your report has been submitted successfully 🎉"
+            "Yaay!! your report has been submitted successfully 🎉"
           );
           setShowModal(true);
         },
@@ -207,10 +208,8 @@ export default function CreateReport() {
                 alt={locationEnabled ? "disable location" : "enable location"}
                 width={30}
                 height={30}
-                className={`ml-3 cursor-pointer ${
-                  location ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-                onClick={location ? undefined : handleToggleLocation}
+                className={`ml-3 cursor-pointer`}
+                onClick={handleToggleLocation}
               />
               {suggestions.length > 0 && (
                 <ul className="absolute top-full left-0 right-0 bg-white border border-gray-300 z-10">
