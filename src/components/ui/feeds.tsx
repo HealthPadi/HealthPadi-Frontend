@@ -9,7 +9,7 @@ import {
 import Image from "next/image";
 import useFeed from "../../hooks/useFeed";
 import healthbadge from "../../../public/images/healthbadge.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Feed } from "../../services/feedService";
 import { Loader } from "lucide-react";
 import {
@@ -42,6 +42,20 @@ export default function Feeds({
   const handleCloseModal = () => {
     setSelectedFeed(null);
   };
+
+  const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      handleCloseModal();
+    }
+  };
+
+  useEffect(() => {
+    if (selectedFeed) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [selectedFeed]);
 
   const splitContent = (content: string) => {
     const lines = content.split("\n");
@@ -79,6 +93,33 @@ export default function Feeds({
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const renderPaginationItems = () => {
+    const items = [];
+    const maxVisiblePages = 3;
+    const startPage = Math.max(
+      1,
+      currentPage - Math.floor(maxVisiblePages / 2)
+    );
+    const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    for (let page = startPage; page <= endPage; page++) {
+      items.push(
+        <PaginationItem key={page}>
+          <PaginationLink
+            href="#"
+            isActive={page === currentPage}
+            onClick={() => handlePageChange(page)}
+            className={page === currentPage ? "bg-green-600 text-white" : ""}
+          >
+            {page}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+
+    return items;
   };
 
   return (
@@ -141,13 +182,28 @@ export default function Feeds({
         })}
       </div>
       {selectedFeed && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-full overflow-y-auto lg:max-w-2xl lg:p-8 relative">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+          onClick={handleOutsideClick}
+        >
+          <div
+            className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-full overflow-y-auto lg:max-w-2xl lg:p-8 relative transition-transform transform duration-300 ease-in-out"
+            style={{
+              scrollbarWidth: "none" /* Firefox */,
+              msOverflowStyle: "none" /* IE and Edge */,
+            }}
+          >
+            <style jsx>{`
+              .custom-scrollbar::-webkit-scrollbar {
+                width: 0px;
+                background: transparent; /* make scrollbar transparent */
+              }
+            `}</style>
             <button
               onClick={handleCloseModal}
-              className="absolute top-4 right-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              className="absolute top-4 right-4 text-red-500 font-bold"
             >
-              Close
+              X
             </button>
             <h2 className="text-2xl font-bold mb-4">{selectedFeed.title}</h2>
             <p className="mb-4">{selectedFeed.description}</p>
@@ -169,25 +225,7 @@ export default function Feeds({
                 />
               </PaginationItem>
             )}
-            {[1, 2, 3].map((page) => (
-              <PaginationItem key={page}>
-                <PaginationLink
-                  href="#"
-                  isActive={page === currentPage}
-                  onClick={() => handlePageChange(page)}
-                  className={
-                    page === currentPage ? "bg-green-600 text-white" : ""
-                  }
-                >
-                  {page}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-            {totalPages > 3 && (
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-            )}
+            {renderPaginationItems()}
             {currentPage < totalPages && (
               <PaginationItem>
                 <PaginationNext

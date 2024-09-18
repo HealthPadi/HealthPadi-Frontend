@@ -1,4 +1,3 @@
-// Register.tsx
 "use client";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
@@ -14,12 +13,13 @@ import HeaderText from "@/components/ui/header-text";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import FormError from "@/components/FormError";
-import { Avatar, AvatarFallback } from "../../../components/ui/avatar"; // Assuming you have an Avatar component
+import { useAuthState } from "../../../store/authStore"; // Import the auth store
 
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { signUpMutation, user } = useAuth();
+  const { signUpMutation } = useAuth();
+  const { setUser } = useAuthState(); // Get the setUser function from the auth store
 
   const RegisterSchema = z
     .object({
@@ -75,12 +75,30 @@ const Register = () => {
     };
 
     await signUpMutation.mutateAsync(payload, {
-      onSuccess: (data) => {
+      onSuccess: (
+        data: { message: string; token: string },
+        variables: {
+          firstName: string;
+          lastName: string;
+          email: string;
+          password: string;
+          roles: string[];
+        }
+      ) => {
+        const { firstName, lastName, email } = variables;
         console.log(data);
         toast.success("Registration successful", {
           duration: 1000,
           icon: "✅",
         });
+
+        setUser({
+          firstName,
+          lastName,
+          email,
+          id: 0,
+        });
+
         router.push("/dashboard");
       },
       onError: (error: any) => {
