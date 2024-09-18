@@ -85,12 +85,12 @@ export default function Feeds({
     <>
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-20 px-4 md:px-8 lg:px-12 mb-10">
         {getFeedsQuery.isLoading && (
-          <div className="flex flex-col justify-center items-center w-full h-64 lg:h-screen lg:justify-center lg:items-center">
+          <div className="flex flex-col justify-center items-center w-full h-64">
             <Loader className="animate-spin text-green-500" size={40} />
             <p className="mt-4 text-gray-600">Please wait, feeds are loading</p>
           </div>
         )}
-        {getFeedsQuery.isError && <div>Something went wrong</div>}
+        {getFeedsQuery.isError && <div> Oops, something went wrong</div>}
         {!getFeedsQuery.isLoading && feedsToDisplay.length === 0 && (
           <div className="flex justify-center items-center w-full h-64">
             No posts available at the moment
@@ -142,18 +142,18 @@ export default function Feeds({
       </div>
       {selectedFeed && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-full overflow-y-auto lg:max-w-2xl lg:p-8">
+          <div className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-full overflow-y-auto lg:max-w-2xl lg:p-8 relative">
+            <button
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Close
+            </button>
             <h2 className="text-2xl font-bold mb-4">{selectedFeed.title}</h2>
             <p className="mb-4">{selectedFeed.description}</p>
             <div className="mb-4">
               {formatContent(String(selectedFeed.remainingContent) || "")}
             </div>
-            <button
-              onClick={handleCloseModal}
-              className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Close
-            </button>
           </div>
         </div>
       )}

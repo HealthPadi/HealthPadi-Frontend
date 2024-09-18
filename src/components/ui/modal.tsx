@@ -1,4 +1,3 @@
-//This page is the modal component that is used to display the user's profile information. It contains the logic for updating the user's profile information and displaying the updated profile information. It also contains the logic for uploading a new profile image and displaying the updated profile image.
 "use client";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { FaPlus } from "react-icons/fa";
@@ -13,7 +12,7 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isVisible, onClose, children }) => {
-  const { user } = useAuthState();
+  const { user, setUser } = useAuthState(); // Assuming setUser is available in the auth store
   const [firstName, setFirstName] = useState(user?.firstName);
   const [lastName, setLastName] = useState(user?.lastName);
   const [email, setEmail] = useState(user?.email);
@@ -33,6 +32,16 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose, children }) => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     console.log("Profile updated:", { firstName, lastName, email });
+
+    // Update the user state in the auth store
+    setUser({
+      ...user,
+      firstName: firstName ?? user?.firstName ?? "",
+      lastName: lastName ?? user?.lastName ?? "",
+      email: email ?? user?.email ?? "",
+      id: user?.id ?? 0, // Ensure id is always defined
+    });
+
     toast.success("Profile updated successfully!", {
       duration: 1000,
       icon: "🎉",
@@ -44,7 +53,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose, children }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-80">
       <Toaster />
-      <div className="bg-white border border-green-600 rounded-lg relative w-[500px] h-[680px]">
+      <div className="bg-white border border-green-600 rounded-lg relative w-[400px] h-[600px]">
         <div className="bg-gradient-to-r from-green-600 to-green-950 w-full h-12 rounded-t-lg flex items-center justify-center relative">
           <button
             onClick={onClose}
@@ -77,7 +86,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose, children }) => {
             <FaPlus className="absolute bottom-1 right-1 text-green-600 text-2xl cursor-pointer" />
           </div>
           <h3 className="mt-6 text-4xl font-semibold text-green-600">
-            {user?.firstName} {user?.lastName}
+            {firstName} {lastName}
           </h3>
         </div>
         <form onSubmit={handleSubmit} className="space-y-5 px-4 mt-6">
