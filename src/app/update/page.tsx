@@ -135,7 +135,7 @@ export default function HealthUpdate() {
       }
     } catch (error) {
       setModalMessage(
-        "Failed to fetch health updates. Please try again later."
+        "Opps! No health update for this location, but we will be happy to get a report from you."
       );
     } finally {
       setIsLoading(false);
@@ -221,7 +221,7 @@ export default function HealthUpdate() {
               Updates
             </h1>
             <p className="mb-9 mt-8 text-base md:text-lg text-gray-500">
-              You can get a detailed health report tailored to
+              You can get detailed health report tailored to
               <br /> a location, helping you stay informed and
               <br /> proactive about your health.
             </p>
