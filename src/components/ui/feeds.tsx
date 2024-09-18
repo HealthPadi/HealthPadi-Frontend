@@ -15,7 +15,6 @@ import { Loader } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -126,14 +125,14 @@ export default function Feeds({
     <>
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-20 px-4 md:px-8 lg:px-12 mb-10">
         {getFeedsQuery.isLoading && (
-          <div className="flex flex-col justify-center items-center w-full h-64">
+          <div className="flex flex-col justify-center items-center w-full h-64 col-span-full">
             <Loader className="animate-spin text-green-500" size={40} />
             <p className="mt-4 text-gray-600">Please wait, feeds are loading</p>
           </div>
         )}
         {getFeedsQuery.isError && <div> Oops, something went wrong</div>}
         {!getFeedsQuery.isLoading && feedsToDisplay.length === 0 && (
-          <div className="flex justify-center items-center w-full h-64">
+          <div className="flex justify-center items-center w-full h-64 col-span-full">
             No posts available at the moment
           </div>
         )}
