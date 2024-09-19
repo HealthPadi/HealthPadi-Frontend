@@ -3,12 +3,161 @@ import MainHeader from "../../components/ui/main-header";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import Image from "next/image";
+import { Loader } from "lucide-react";
 import healthbadge from "../../../public/images/healthbadge.png";
 import enableLocation from "../../../assets/icons/enable location.svg";
+import disableLocation from "../../../assets/icons/disable location.svg";
 import chatIcon from "../../../assets/icons/chat Icon.svg";
-import { Londrina_Sketch } from "next/font/google";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import useHealthUpdate from "../../hooks/useHealthUpdate";
+import type { HealthUpdate } from "../../services/healthUpdateService";
+import ChatModal from "../../components/ChatModal";
+import axiosConfig from "../../config/axios";
+
+// Define the AddressComponent interface
+interface AddressComponent {
+  long_name: string;
+  short_name: string;
+  types: string[];
+}
 
 export default function HealthUpdate() {
+  const [location, setLocation] = useState("");
+  const [error, setError] = useState("");
+  const [locationEnabled, setLocationEnabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [healthUpdate, setHealthUpdate] = useState<HealthUpdate | null>(null);
+  const [modalMessage, setModalMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [healthUpdateId, setHealthUpdateId] = useState<string | null>(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const { getHealthUpdatesQuery, useGetHealthUpdateByIdQuery } =
+    useHealthUpdate();
+
+  useEffect(() => {
+    if (location && !locationEnabled) {
+      const fetchSuggestions = async () => {
+        try {
+          const response = await axios.get(
+            `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${location}&key=AIzaSyAdi6ZdkYtYS5v-v-LVAYGwtobv7PMLz8o`
+          );
+          const predictions = response.data.predictions;
+          setSuggestions(
+            predictions.map((prediction: any) => prediction.description)
+          );
+        } catch (error) {
+          console.error("Error fetching location suggestions:", error);
+        }
+      };
+      fetchSuggestions();
+    } else {
+      setSuggestions([]);
+    }
+  }, [location, locationEnabled]);
+
+  const handleGetLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          try {
+            const response = await axios.get(
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyAdi6ZdkYtYS5v-v-LVAYGwtobv7PMLz8o`
+            );
+            const addressComponents: AddressComponent[] =
+              response.data.results[0].address_components;
+            const city = addressComponents.find((component: AddressComponent) =>
+              component.types.includes("locality")
+            )?.long_name;
+            const country = addressComponents.find(
+              (component: AddressComponent) =>
+                component.types.includes("country")
+            )?.long_name;
+            setLocation(`${city}, ${country}`);
+            setError("");
+            setLocationEnabled(true);
+          } catch (err) {
+            setError("Unable to retrieve your location.");
+            setLocationEnabled(false);
+          }
+        },
+        (err) => {
+          setError("Unable to retrieve your location.");
+          setLocationEnabled(false);
+        }
+      );
+    } else {
+      setError("Geolocation is not supported by this browser.");
+      setLocationEnabled(false);
+    }
+  };
+
+  const handleToggleLocation = () => {
+    if (locationEnabled) {
+      setLocation("");
+      setLocationEnabled(false);
+    } else {
+      handleGetLocation();
+    }
+  };
+
+  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocation(e.target.value);
+    setLocationEnabled(false); // Disable the toggle when typing
+    if (e.target.value) {
+      setLocationEnabled(false);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setLocation(suggestion);
+    setSuggestions([]);
+  };
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    setModalMessage("Your health update is on its way...");
+    setShowModal(true);
+    try {
+      const response = await axiosConfig.get(
+        `/api/report?location=${location}`
+      );
+      const data = response.data.data;
+       if (data.length > 0) {
+        setHealthUpdate(data[0]);
+        setModalMessage(`Health update for ${location}: ${data}`);
+ 
+      } else {
+        setModalMessage(
+          `There is no health update for ${location} at the moment. Check back later :( .`
+        );
+      }
+    } catch (error) {
+      setModalMessage(
+        "Opps! No health update for this location, but we will be happy to get a report from you."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setHealthUpdate(null);
+  };
+
+  const handleChatIconClick = () => {
+    setIsChatOpen(true);
+  };
+
+  const handleCloseChat = () => {
+    setIsChatOpen(false);
+  };
+
+  const healthUpdateQuery = useGetHealthUpdateByIdQuery(healthUpdateId || "");
+
   return (
     <>
       <MainHeader />
@@ -17,32 +166,44 @@ export default function HealthUpdate() {
           <h1 className="text-lg text-gray-600 font-bold mb-2">
             Get Health Update
           </h1>
-          <div className="flex items-center mb-3">
-            <Input
-              type="text"
-              placeholder="Search keywords"
-              className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
-            />
-          </div>
-          <div className="flex items-center mb-3">
+          <div className="flex items-center mb-3"></div>
+          <div className="flex items-center mb-3 relative">
             <Input
               type="text"
               placeholder="Location"
+              value={location}
+              onChange={handleLocationChange}
               className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
+              disabled={locationEnabled}
             />
             <Image
-              src={enableLocation}
-              alt="enable location"
+              src={locationEnabled ? enableLocation : disableLocation}
+              alt={locationEnabled ? "disable location" : "enable location"}
               width={30}
               height={30}
-              className="ml-3"
+              className={`ml-3 cursor-pointer`}
+              onClick={handleToggleLocation}
             />
+            {suggestions.length > 0 && (
+              <ul className="absolute top-full left-0 right-0 bg-white border border-gray-300 z-10">
+                {suggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    className="p-2 cursor-pointer hover:bg-gray-200"
+                    onClick={() => handleSuggestionClick(suggestion)}
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-          <Link href="/">
-            <button className="bg-green-600 text-white w-full h-12 md:h-14 mb-3 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950">
-              Submit
-            </button>
-          </Link>
+          <button
+            onClick={handleSubmit}
+            className="bg-green-600 text-white w-full h-12 md:h-14 mb-3 rounded-sm hover:bg-gradient-to-r from-green-600 to-green-950"
+          >
+            Submit
+          </button>
           <div>
             <Image
               src={healthbadge}
@@ -61,20 +222,49 @@ export default function HealthUpdate() {
               Updates
             </h1>
             <p className="mb-9 mt-8 text-base md:text-lg text-gray-500">
-              You can get a detailed health report tailored to
+              You can get detailed health report tailored to
               <br /> a location, helping you stay informed and
               <br /> proactive about your health.
             </p>
-            <h3 className="text-gray-800 text-lg md:text-xl font-bold mt-10 md:mt-56">
+            {/* <h3 className="text-gray-800 text-lg md:text-xl font-bold mt-10 md:mt-56">
               Stay informed about the latest health news, alerts, and advice
               relevant to your area by staying connected.
-            </h3>
+            </h3> */}
           </div>
-          <Link href="/chat" className="mt-10 md:mt-auto self-end">
+          <button
+            onClick={handleChatIconClick}
+            className="mb-10 md:mt-auto self-end"
+          >
             <Image src={chatIcon} alt="chat icon" width={60} height={60} />
-          </Link>
+          </button>
         </div>
       </div>
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg max-w-lg w-full">
+            {isLoading ? (
+              <div className="flex items-center justify-center ">
+                <Loader className="animate-spin mr-2" />
+                <span>{modalMessage}</span>
+              </div>
+            ) : (
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Health Update</h2>
+                <p>{modalMessage}</p>
+                <button
+                  onClick={closeModal}
+                  className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      {isChatOpen && (
+        <ChatModal isOpen={isChatOpen} onClose={handleCloseChat} />
+      )}
     </>
   );
 }
