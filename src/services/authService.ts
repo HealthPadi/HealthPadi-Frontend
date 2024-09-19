@@ -7,7 +7,9 @@ import axiosConfig from "../config/axios";
 
 const RegisterRequestSchema = z.object({
   firstName: z.string(),
+
   lastName: z.string(),
+
   email: z.string().email(),
   password: z.string(),
   roles: z.array(z.string()),
@@ -27,7 +29,7 @@ const LoginResponseSchema = z.object({
   status: z.string(),
   data: z.object({
     user: z.object({
-      id: z.number(),
+      id: z.string(),
       firstName: z.string(),
       lastName: z.string(),
       email: z.string(),

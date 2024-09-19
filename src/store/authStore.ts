@@ -1,6 +1,13 @@
-//This is the auth store that manages the authentication state of the application. It uses Zustand to manage the state and provides actions to set the token, clear the authentication state, and set the user information. It also persists the authentication state to local storage using the Zustand persist middleware.
 import { create, StateCreator } from "zustand";
 import { StateStorage, createJSONStorage, persist } from "zustand/middleware";
+
+export type User = {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  // Add other user properties as needed
+};
 
 export type AuthState = {
   token?: string;
