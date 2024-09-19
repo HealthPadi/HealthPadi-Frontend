@@ -2,7 +2,6 @@
 import { z } from "zod";
 import axiosConfig from "../config/axios";
 import { AxiosResponse } from "axios";
-import { Content } from "next/font/google";
 
 // Define the request and response schemas using Zod
 const ReportRequestSchema = z.object({

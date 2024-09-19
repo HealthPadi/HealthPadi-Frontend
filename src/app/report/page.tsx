@@ -38,6 +38,7 @@ export default function CreateReport() {
   const { user } = useAuthState();
   const { createReportMutation } = useReport();
 
+  console.log("User:", user);
   const {
     register,
     handleSubmit,

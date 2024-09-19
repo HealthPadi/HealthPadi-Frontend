@@ -93,13 +93,13 @@ const Register = () => {
         });
 
         setUser({
-          firstName,
-          lastName,
-          email,
-          id: 0,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          id: data.token, // Ensure this is the correct user ID
         });
 
-        router.push("/dashboard");
+        // router.push("/dashboard");
       },
       onError: (error: any) => {
         console.log(error);
@@ -212,13 +212,6 @@ const Register = () => {
               </div>
             </div>
           </form>
-          {/* {user && (
-            // <div className="mt-5">
-            //   <Avatar className="bg-green-500 text-white">
-            //     {user.firstName.charAt(0).toUpperCase()}
-            //   </Avatar>
-            // </div>
-          )} */}
         </div>
       </div>
     </>

@@ -29,6 +29,9 @@ const useAuth = () => {
       // Handle error (optional)
       console.error(axiosResponseMessage(error));
     },
+    onSuccess: () => {
+      router.push("/login");
+    },
   });
 
   const loginMutation = useMutation({
