@@ -51,14 +51,13 @@ export default function Home() {
           </div>
           <div
             className="flex-none ml-2 md:ml-4 mt-4 lg:mt-0 cursor-pointer"
-            onClick={openChatModal} // Add the onClick event to open the chat modal
+            onClick={openChatModal}
           >
             <Image src={chatIcon} alt="chat icon" width={60} height={60} />
           </div>
         </div>
       </main>
 
-      {/* Include the ChatModal component and pass the necessary props */}
       <ChatModal isOpen={isChatModalVisible} onClose={closeChatModal} />
     </>
   );

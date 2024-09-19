@@ -135,6 +135,11 @@ export default function CreateReport() {
       return;
     }
     setIsLoading(true);
+    console.log("Submitting report with data:", {
+      location: location,
+      userId: user?.id?.toString() ?? "",
+      content: data.description,
+    });
     createReportMutation.mutate(
       {
         location: location,
@@ -149,7 +154,8 @@ export default function CreateReport() {
           );
           setShowModal(true);
         },
-        onError: () => {
+        onError: (error) => {
+          console.error("Error submitting report:", error);
           setIsLoading(false);
           setModalMessage("Failed to submit report. Please try again later.");
           setShowModal(true);

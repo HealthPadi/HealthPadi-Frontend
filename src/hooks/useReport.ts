@@ -1,5 +1,3 @@
-//This is the report hook that is used to create a report. It uses the useMutation hook from react-query to create a report mutation. It also uses the useAuthState hook to get the authentication token from the auth store. It returns the createReportMutation function that can be used to create a report.
-
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import AxiosResponseMessage from "@/lib/axiosResponseMessage";
@@ -13,6 +11,7 @@ const useReport = () => {
 
   const createReportMutation = useMutation({
     mutationFn: async (data: ReportRequest) => {
+      console.log("Sending report data to server:", data);
       const response = await reportService.createReport(data, token);
 
       return response.data;
