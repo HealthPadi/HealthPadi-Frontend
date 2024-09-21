@@ -18,6 +18,7 @@ import profileImg from "../../../assets/icons/profile.svg";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useAuthState } from "../../store/authStore";
+import { RiCoinsLine } from "react-icons/ri"; // Import the coin icon
 
 export default function MainHeader() {
   const { user } = useAuthState();
@@ -71,20 +72,6 @@ export default function MainHeader() {
                 </li>
                 <li
                   className={
-                    isActive("/update")
-                      ? "bg-yellow-300 border border-green-600 p-2 rounded-lg"
-                      : ""
-                  }
-                >
-                  <Link
-                    href="/update"
-                    className="text-white text-sm md:text-base"
-                  >
-                    Health Update
-                  </Link>
-                </li>
-                <li
-                  className={
                     isActive("/report")
                       ? "bg-yellow-300 border border-green-600 p-2 rounded-lg"
                       : ""
@@ -95,6 +82,20 @@ export default function MainHeader() {
                     className="text-white text-sm md:text-base"
                   >
                     Create Report
+                  </Link>
+                </li>
+                <li
+                  className={
+                    isActive("/update")
+                      ? "bg-yellow-300 border border-green-600 p-2 rounded-lg"
+                      : ""
+                  }
+                >
+                  <Link
+                    href="/update"
+                    className="text-white text-sm md:text-base"
+                  >
+                    Health Update
                   </Link>
                 </li>
                 <li
@@ -116,7 +117,8 @@ export default function MainHeader() {
           </div>
 
           {/* Dropdown for profile and settings */}
-          <div className="relative">
+          <div className="relative flex items-center">
+            <RiCoinsLine className="text-yellow-300 mr-2" size={32} />
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center">
                 <Avatar className="cursor-pointer bg-white p-1">
@@ -149,18 +151,18 @@ export default function MainHeader() {
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link
-                        href="/update"
-                        className="text-black hover:text-yellow-300"
-                      >
-                        Health Update
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link
                         href="/report"
                         className="text-black hover:text-yellow-300"
                       >
                         Create Report
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link
+                        href="/update"
+                        className="text-black hover:text-yellow-300"
+                      >
+                        Health Update
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
@@ -170,6 +172,10 @@ export default function MainHeader() {
                       >
                         About us
                       </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <RiCoinsLine className="text-yellow-300 mr-2" size={24} />
+                      Coins
                     </DropdownMenuItem>
                   </div>
                 </DropdownMenuGroup>

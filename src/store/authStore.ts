@@ -2,6 +2,8 @@ import { create, StateCreator } from "zustand";
 import { StateStorage, createJSONStorage, persist } from "zustand/middleware";
 
 export type User = {
+  roles?: ("user" | "admin")[];
+
   id: string;
   email: string;
   firstName: string;
