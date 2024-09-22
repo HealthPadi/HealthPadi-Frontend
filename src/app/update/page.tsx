@@ -167,6 +167,7 @@ export default function CreateReport() {
           setModalMessage("Failed to submit report. Please try again later.");
           setShowModal(true);
         },
+ 
       }
     );
   };
