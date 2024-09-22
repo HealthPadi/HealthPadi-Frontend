@@ -59,6 +59,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose, children }) => {
       lastName: lastName ?? user?.lastName ?? "",
       email: email ?? user?.email ?? "",
       id: user?.id?.toString() ?? "", // Ensure id is always defined as a string
+      point: user?.point ?? 0, // Ensure point is always defined as a number
     });
 
     toast.success("Profile updated successfully!", {

@@ -1,4 +1,3 @@
-//This is the auth hook that is used to handle authentication. It uses the useMutation and useQuery hooks from react-query to handle sign up, login, and reset password. It also uses the AuthService to handle authentication. It returns the signUpMutation, loginMutation, resetPasswordMutation, googleLogin, user, token, setUser, setToken, clearAuth, and logout functions that can be used to handle authentication.
 import AuthService, {
   RegisterRequest,
   LoginRequest,
@@ -12,9 +11,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import axiosConfig from "../config/axios";
-import { Code } from "lucide-react";
 import toast from "react-hot-toast";
-import { on } from "events";
 
 const useAuth = () => {
   const router = useRouter();
@@ -41,7 +38,18 @@ const useAuth = () => {
     },
     onSuccess: (data: LoginResponse) => {
       setToken(data.data.jwtToken);
-      setUser(data.data.user);
+
+      // Retrieve points from localStorage
+      const storedPoints = localStorage.getItem("userPoints");
+      const points = storedPoints
+        ? parseInt(storedPoints, 10)
+        : data.data.user.point || 0;
+
+      setUser({
+        ...data.data.user,
+        point: points,
+      });
+
       router.push("/dashboard");
     },
     onError: (error: AxiosError) => {
@@ -50,40 +58,35 @@ const useAuth = () => {
     },
   });
 
-  // const googleSignInMutation = useMutation({
-  //   mutationFn: async (requestBody: { token: string }) => {
-  //     const response = await AuthService.googleSignIn(code);
-  //     return response.data; // Return only the response data
-  //   },
-  //   onError: (error: AxiosError) => {
-  //     // Handle error (optional)
-  //     console.error(axiosResponseMessage(error));
-  //   },
-  // });
-
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      // Mark the function as async
       try {
         const { code } = tokenResponse;
-
-        // Await the axios post request to ensure the call completes before proceeding
         const response = await axiosConfig.post(
           `/api/account/google-login?authCode=${code}`
         );
-        // You can now handle the response, e.g., setting the JWT token in local storage
+
         toast.success("Login successful", {
           duration: 1000,
           icon: "🎉",
         });
 
-        console.log("Login successful:", response.data);
-
         setToken(response.data.jwtToken);
-        setUser(response.data.user);
+
+        // Retrieve points from localStorage
+        const storedPoints = localStorage.getItem("userPoints");
+        const points = storedPoints
+          ? parseInt(storedPoints, 10)
+          : response.data.user.point || 0;
+
+        setUser({
+          ...response.data.user,
+          point: points,
+        });
+
         router.push("/dashboard");
       } catch (error) {
-        toast.error("Login  with google failed", {
+        toast.error("Login with Google failed", {
           duration: 1000,
           icon: "❌",
         });

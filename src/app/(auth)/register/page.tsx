@@ -97,6 +97,7 @@ const Register = () => {
           lastName: lastName,
           email: email,
           id: data.token, // Ensure this is the correct user ID
+          point: 0, // Ensure points are always initialized to 0 when users first register
         });
 
         // router.push("/dashboard");

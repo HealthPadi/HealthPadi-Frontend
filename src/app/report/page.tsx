@@ -41,7 +41,7 @@ export default function CreateReport() {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const { user } = useAuthState();
+  const { user, token, setUser } = useAuthState(); // Added setUser to update user state
   const { createReportMutation } = useReport();
 
   console.log("User:", user);
@@ -154,12 +154,23 @@ export default function CreateReport() {
         content: data.description,
       },
       {
-        onSuccess: () => {
+        onSuccess: (response) => {
           setIsLoading(false);
           setModalMessage(
             "Yaay!! your report has been submitted successfully 🎉"
           );
           setShowModal(true);
+
+          // Update user points after successful report submission each submission gets 100 points
+          setUser({
+            ...user,
+            id: user?.id ?? "",
+            point: (user?.point ?? 0) + 100,
+            email: user?.email ?? "",
+            firstName: user?.firstName ?? "",
+            lastName: user?.lastName ?? "",
+            roles: user?.roles ?? ["user"],
+          });
         },
         onError: (error) => {
           console.error("Error submitting report:", error);
