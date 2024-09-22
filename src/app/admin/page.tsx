@@ -12,7 +12,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"; // Import ShadCN UI pagination components
-import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import { useRouter } from "next/navigation"; // Corrected import for useRouter
 
 const users = [
   {
@@ -99,9 +99,9 @@ const users = [
 
 const ITEMS_PER_PAGE = 4;
 
-export default function AdminDashbord() {
+export default function AdminDashboard() {
   const [currentPage, setCurrentPage] = useState(1);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const router = useRouter(); // Initialize useRouter
 
   const totalPages = Math.ceil(users.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -111,11 +111,10 @@ export default function AdminDashbord() {
     setCurrentPage(page);
   };
 
-  //   const handleUserClick = (user) => {
-  //     navigate(`/reports/${user.firstName}-${user.lastName}`, {
-  //       state: { user },
-  //     });
-  //   };
+  // Uncomment and update this function if you intend to use it
+  // const handleUserClick = (user) => {
+  //   router.push(`/reports/${user.firstName}-${user.lastName}`);
+  // };
 
   const renderPaginationItems = () => {
     const items = [];
@@ -132,7 +131,10 @@ export default function AdminDashbord() {
           <PaginationLink
             href="#"
             isActive={page === currentPage}
-            onClick={() => handlePageChange(page)}
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(page);
+            }}
             className={page === currentPage ? "bg-green-600 text-white" : ""}
           >
             {page}
@@ -169,9 +171,9 @@ export default function AdminDashbord() {
         <div className="flex flex-col gap-4 mt-5 w-full items-center">
           {currentUsers.map((user, index) => (
             <Card
-              key={index}
+              key={`${user.firstName}-${user.lastName}-${index}`} // Improved key for uniqueness
               className="p-4 border rounded shadow w-1/2 h-32 cursor-pointer"
-              //   onClick={() => handleUserClick(user)}
+              // onClick={() => handleUserClick(user)}
             >
               <CardHeader>
                 <CardTitle className="text-xl font-semibold">
@@ -191,7 +193,10 @@ export default function AdminDashbord() {
               <PaginationItem>
                 <PaginationPrevious
                   href="#"
-                  onClick={() => handlePageChange(currentPage - 1)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handlePageChange(currentPage - 1);
+                  }}
                   className="bg-green-600 text-white"
                 />
               </PaginationItem>
@@ -201,7 +206,10 @@ export default function AdminDashbord() {
               <PaginationItem>
                 <PaginationNext
                   href="#"
-                  onClick={() => handlePageChange(currentPage + 1)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handlePageChange(currentPage + 1);
+                  }}
                   className="bg-green-600 text-white"
                 />
               </PaginationItem>
