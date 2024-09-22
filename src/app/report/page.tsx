@@ -18,6 +18,12 @@ import ChatModal from "../../components/ChatModal";
 import axiosConfig from "../../config/axios";
 import { useAuthState } from "../../store/authStore";
 import useReport from "../../hooks/useReport";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // Define the AddressComponent interface
 interface AddressComponent {
@@ -202,14 +208,23 @@ export default function CreateReport() {
           </h1>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex items-center mb-6 relative">
-              <Input
-                type="text"
-                placeholder="Location"
-                value={location}
-                onChange={handleLocationChange}
-                className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
-                disabled={locationEnabled}
-              />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Input
+                      type="text"
+                      placeholder="Location"
+                      value={location}
+                      onChange={handleLocationChange}
+                      className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
+                      disabled={locationEnabled}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Type your location e.g Lagos, Nigeria</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               <Image
                 src={locationEnabled ? enableLocation : disableLocation}
                 alt={locationEnabled ? "disable location" : "enable location"}
