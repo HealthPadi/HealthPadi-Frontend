@@ -138,6 +138,7 @@ export default function HealthUpdate() {
         setModalMessage(
           `There is no health update for ${location} at the moment. Check back later :( .`
         );
+ 
       }
     } catch (error) {
       setModalMessage(

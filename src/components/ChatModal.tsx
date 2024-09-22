@@ -30,6 +30,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
         },
         {
           onSuccess: (data) => {
+
             console.log("Mutation Success:", data);
             const aiMessage: ChatHistoryItem = {
               role: "assistant",
@@ -86,7 +87,7 @@ const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
             >
               {message.role === "assistant" && (
                 <Avatar className="mr-1 bg-white p-1">
-                  <AvatarFallback className="bg-green-500 text-white">
+                   <AvatarFallback className="bg-green-500 text-white">
                     AI
                   </AvatarFallback>
                 </Avatar>
