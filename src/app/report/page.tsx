@@ -170,6 +170,7 @@ export default function CreateReport() {
             firstName: user?.firstName ?? "",
             lastName: user?.lastName ?? "",
             roles: user?.roles ?? ["user"],
+            report: user?.report ?? 0, //reports count
           });
         },
         onError: (error) => {

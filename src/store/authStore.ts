@@ -8,6 +8,7 @@ export type User = {
   firstName: string;
   lastName: string;
   point: number;
+  report: number;
 };
 
 export type AuthState = {

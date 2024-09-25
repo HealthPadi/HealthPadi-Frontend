@@ -68,7 +68,16 @@ const Login = () => {
         setToken(data.data.jwtToken);
 
         setIsLoading(false);
-        router.push("/dashboard");
+
+        // Define the admin email
+        const adminEmail = "bob.johnson@example.com";
+
+        // Redirect based on the email
+        if (data.data.user.email === adminEmail) {
+          router.push("/admin");
+        } else {
+          router.push("/dashboard");
+        }
       },
       onError: (error: any) => {
         toast.error("Login failed", {
