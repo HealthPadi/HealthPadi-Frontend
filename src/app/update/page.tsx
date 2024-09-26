@@ -5,8 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Loader } from "lucide-react";
 import healthbadge from "../../../public/images/healthbadge.png";
-import enableLocation from "../../../assets/icons/enable location.svg";
-import disableLocation from "../../../assets/icons/disable location.svg";
 import chatIcon from "../../../assets/icons/chat Icon.svg";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -20,6 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Switch } from "@/components/ui/switch"; // Import the Switch component
 
 // Define the AddressComponent interface
 interface AddressComponent {
@@ -191,13 +190,10 @@ export default function HealthUpdate() {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            <Image
-              src={locationEnabled ? enableLocation : disableLocation}
-              alt={locationEnabled ? "disable location" : "enable location"}
-              width={30}
-              height={30}
-              className={`ml-3 cursor-pointer`}
-              onClick={handleToggleLocation}
+            <Switch
+              checked={locationEnabled}
+              onCheckedChange={handleToggleLocation}
+              className="ml-3"
             />
             {suggestions.length > 0 && (
               <ul className="absolute top-full left-0 right-0 bg-white border border-gray-300 z-10">

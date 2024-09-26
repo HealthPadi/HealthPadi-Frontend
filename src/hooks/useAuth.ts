@@ -48,6 +48,7 @@ const useAuth = () => {
       setUser({
         ...data.data.user,
         point: points,
+        canReport: data.data.user.canReport, // Ensure canReport is included
       });
 
       router.push("/dashboard");
