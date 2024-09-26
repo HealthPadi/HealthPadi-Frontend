@@ -35,6 +35,7 @@ const LoginResponseSchema = z.object({
       email: z.string(),
       point: z.number(),
       report: z.number(),
+      canReport: z.boolean(),
     }),
     jwtToken: z.string(),
   }),
