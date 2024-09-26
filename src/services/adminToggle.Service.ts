@@ -9,7 +9,6 @@ export interface AdminToggleResponse {
   userId: any;
   status: string;
   message: string;
-  canReport: boolean; // Add this field to the response
 }
 
 class AdminToggleService {

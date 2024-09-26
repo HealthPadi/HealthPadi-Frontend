@@ -142,11 +142,6 @@ export default function CreateReport() {
     }
 
     // Check if the user is allowed to submit a report
-    if (!user?.canReport) {
-      setModalMessage("Sorry, you can't submit a report at the moment.");
-      setShowModal(true);
-      return;
-    }
 
     setIsLoading(true);
     console.log("Submitting report with data:", {
