@@ -14,6 +14,12 @@ import useHealthUpdate from "../../hooks/useHealthUpdate";
 import type { HealthUpdate } from "../../services/healthUpdateService";
 import ChatModal from "../../components/ChatModal";
 import axiosConfig from "../../config/axios";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // Define the AddressComponent interface
 interface AddressComponent {
@@ -125,14 +131,14 @@ export default function HealthUpdate() {
         `/api/report?location=${location}`
       );
       const data = response.data.data;
-       if (data.length > 0) {
+      if (data.length > 0) {
         setHealthUpdate(data[0]);
         setModalMessage(`Health update for ${location}: ${data}`);
- 
       } else {
         setModalMessage(
           `There is no health update for ${location} at the moment. Check back later :( .`
         );
+ 
       }
     } catch (error) {
       setModalMessage(
@@ -168,14 +174,23 @@ export default function HealthUpdate() {
           </h1>
           <div className="flex items-center mb-3"></div>
           <div className="flex items-center mb-3 relative">
-            <Input
-              type="text"
-              placeholder="Location"
-              value={location}
-              onChange={handleLocationChange}
-              className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
-              disabled={locationEnabled}
-            />
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Input
+                    type="text"
+                    placeholder="Location"
+                    value={location}
+                    onChange={handleLocationChange}
+                    className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
+                    disabled={locationEnabled}
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Type your location e.g Lagos, Nigeria</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             <Image
               src={locationEnabled ? enableLocation : disableLocation}
               alt={locationEnabled ? "disable location" : "enable location"}

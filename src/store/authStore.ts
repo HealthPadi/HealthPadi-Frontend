@@ -2,11 +2,13 @@ import { create, StateCreator } from "zustand";
 import { StateStorage, createJSONStorage, persist } from "zustand/middleware";
 
 export type User = {
+  roles?: ("user" | "admin")[];
   id: string;
   email: string;
   firstName: string;
   lastName: string;
-  // Add other user properties as needed
+  point: number;
+  report: number;
 };
 
 export type AuthState = {
@@ -17,17 +19,22 @@ export type AuthState = {
 export type AuthActions = {
   setToken: (authToken: string) => void;
   clearAuth: () => void;
-  setUser: (user: User) => void;
+  setUser: (user?: User) => void; // Allow undefined
 };
 
 const initializer: StateCreator<AuthState & AuthActions> = (set) => ({
   setToken: (authToken: string) => set({ token: authToken }),
-  clearAuth: () =>
+  clearAuth: () => {
     set({
       token: undefined,
       user: undefined,
-    }),
-  setUser: (user: User) => {
+    });
+    localStorage.removeItem("userPoints"); // Clear points from localStorage on logout
+  },
+  setUser: (user?: User) => {
+    if (user && user.point !== undefined) {
+      localStorage.setItem("userPoints", user.point.toString()); // Store points in localStorage
+    }
     set({
       user: user,
     });

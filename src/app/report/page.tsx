@@ -18,6 +18,12 @@ import ChatModal from "../../components/ChatModal";
 import axiosConfig from "../../config/axios";
 import { useAuthState } from "../../store/authStore";
 import useReport from "../../hooks/useReport";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // Define the AddressComponent interface
 interface AddressComponent {
@@ -35,7 +41,7 @@ export default function CreateReport() {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const { user } = useAuthState();
+  const { user, token, setUser } = useAuthState(); // Added setUser to update user state
   const { createReportMutation } = useReport();
 
   console.log("User:", user);
@@ -148,12 +154,24 @@ export default function CreateReport() {
         content: data.description,
       },
       {
-        onSuccess: () => {
+        onSuccess: (response) => {
           setIsLoading(false);
           setModalMessage(
             "Yaay!! your report has been submitted successfully 🎉"
           );
           setShowModal(true);
+
+          // Update user points after successful report submission each submission gets 100 points
+          setUser({
+            ...user,
+            id: user?.id ?? "",
+            point: (user?.point ?? 0) + 100,
+            email: user?.email ?? "",
+            firstName: user?.firstName ?? "",
+            lastName: user?.lastName ?? "",
+            roles: user?.roles ?? ["user"],
+            report: user?.report ?? 0, //reports count
+          });
         },
         onError: (error) => {
           console.error("Error submitting report:", error);
@@ -202,14 +220,23 @@ export default function CreateReport() {
           </h1>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex items-center mb-6 relative">
-              <Input
-                type="text"
-                placeholder="Location"
-                value={location}
-                onChange={handleLocationChange}
-                className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
-                disabled={locationEnabled}
-              />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Input
+                      type="text"
+                      placeholder="Location"
+                      value={location}
+                      onChange={handleLocationChange}
+                      className="w-full h-12 md:h-16 mb-3 outline-none border-green-600 focus:outline-none focus:ring-0 focus:border-transparent"
+                      disabled={locationEnabled}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Type your location e.g Lagos, Nigeria</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               <Image
                 src={locationEnabled ? enableLocation : disableLocation}
                 alt={locationEnabled ? "disable location" : "enable location"}

@@ -16,13 +16,12 @@ import {
 import Modal from "../../components/ui/modal";
 import profileImg from "../../../assets/icons/profile.svg";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { useAuthState } from "../../store/authStore";
+import { RiCoinsLine } from "react-icons/ri"; // Import the coin icon
 
 export default function MainHeader() {
-  const { user } = useAuthState();
+  const { user, setUser, setToken } = useAuthState(); // Add setUser and setToken to clear state on logout
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState(profileImg);
   const [isLoading, setIsLoading] = useState(true);
   const path = usePathname();
   const router = useRouter();
@@ -44,7 +43,12 @@ export default function MainHeader() {
   };
 
   const isActive = (href: string) => path.startsWith(href);
-
+  //TODO: Add the handleLogout function to clear user state and token
+  const handleLogout = () => {
+    setUser(undefined); // Clear user state
+    setToken(""); // Clear token
+    router.push("/login"); // Redirect to login page
+  };
   return (
     <header className="bg-gradient-to-r from-green-600 to-green-950 flex items-center justify-between p-3 md:p-4 lg:p-3">
       <h1 className="font-bold text-yellow-200 text-2xl md:text-3xl lg:text-2xl">
@@ -71,20 +75,6 @@ export default function MainHeader() {
                 </li>
                 <li
                   className={
-                    isActive("/update")
-                      ? "bg-yellow-300 border border-green-600 p-2 rounded-lg"
-                      : ""
-                  }
-                >
-                  <Link
-                    href="/update"
-                    className="text-white text-sm md:text-base"
-                  >
-                    Health Update
-                  </Link>
-                </li>
-                <li
-                  className={
                     isActive("/report")
                       ? "bg-yellow-300 border border-green-600 p-2 rounded-lg"
                       : ""
@@ -95,6 +85,20 @@ export default function MainHeader() {
                     className="text-white text-sm md:text-base"
                   >
                     Create Report
+                  </Link>
+                </li>
+                <li
+                  className={
+                    isActive("/update")
+                      ? "bg-yellow-300 border border-green-600 p-2 rounded-lg"
+                      : ""
+                  }
+                >
+                  <Link
+                    href="/update"
+                    className="text-white text-sm md:text-base"
+                  >
+                    Health Update
                   </Link>
                 </li>
                 <li
@@ -116,7 +120,12 @@ export default function MainHeader() {
           </div>
 
           {/* Dropdown for profile and settings */}
-          <div className="relative">
+          <div className="relative flex items-center">
+            <div className="flex items-center text-yellow-300 mr-10">
+              <span className="mr-2">{user.point ?? 0}</span>{" "}
+              {/* Display user points */}
+              <RiCoinsLine size={32} />
+            </div>
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center">
                 <Avatar className="cursor-pointer bg-white p-1">
@@ -149,18 +158,18 @@ export default function MainHeader() {
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link
-                        href="/update"
-                        className="text-black hover:text-yellow-300"
-                      >
-                        Health Update
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link
                         href="/report"
                         className="text-black hover:text-yellow-300"
                       >
                         Create Report
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link
+                        href="/update"
+                        className="text-black hover:text-yellow-300"
+                      >
+                        Health Update
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
@@ -171,10 +180,14 @@ export default function MainHeader() {
                         About us
                       </Link>
                     </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <RiCoinsLine className="text-yellow-300 mr-2" size={24} />
+                      Coins
+                    </DropdownMenuItem>
                   </div>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => router.push("/login")}>
+                <DropdownMenuItem onClick={handleLogout}>
                   Log out
                   <DropdownMenuShortcut>
                     <LogOut className="h-5 w-5 text-xl" />

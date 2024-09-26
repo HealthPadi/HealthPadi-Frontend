@@ -33,6 +33,8 @@ const LoginResponseSchema = z.object({
       firstName: z.string(),
       lastName: z.string(),
       email: z.string(),
+      point: z.number(),
+      report: z.number(),
     }),
     jwtToken: z.string(),
   }),

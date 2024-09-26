@@ -1,7 +1,6 @@
-// This is the login page where user can login to the application
 "use client";
 import { Input } from "@/components/ui/input";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Loader } from "lucide-react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -14,11 +13,12 @@ import Image from "next/image";
 import HeaderText from "@/components/ui/header-text";
 import FormError from "@/components/FormError";
 import useAuth from "../../../hooks/useAuth";
-import axiosConfig from "../../../config/axios";
+import { useAuthState } from "@/store/authStore";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { setUser, setToken } = useAuthState(); // Add setUser and setToken to update user state
 
   const { loginMutation, googleLogin } = useAuth();
   const LoginSchema = z.object({
@@ -53,8 +53,31 @@ const Login = () => {
           duration: 1000,
           icon: "🎉",
         });
+
+        // Retrieve points from localStorage
+        const storedPoints = localStorage.getItem("userPoints");
+        const points = storedPoints
+          ? parseInt(storedPoints, 10)
+          : (data.data.user as any).point || 0;
+
+        // Update the user and token in the auth store
+        setUser({
+          ...data.data.user,
+          point: points,
+        });
+        setToken(data.data.jwtToken);
+
         setIsLoading(false);
-        router.push("/dashboard");
+
+        // Define the admin email
+        const adminEmail = "bob.johnson@example.com";
+
+        // Redirect based on the email
+        if (data.data.user.email === adminEmail) {
+          router.push("/admin");
+        } else {
+          router.push("/dashboard");
+        }
       },
       onError: (error: any) => {
         toast.error("Login failed", {
