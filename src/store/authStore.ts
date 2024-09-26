@@ -7,7 +7,7 @@ export type User = {
   email: string;
   firstName: string;
   lastName: string;
-  point: number;
+  point: number; // This value comes from the backend
   report: number;
 };
 
@@ -29,11 +29,11 @@ const initializer: StateCreator<AuthState & AuthActions> = (set) => ({
       token: undefined,
       user: undefined,
     });
-    localStorage.removeItem("userPoints"); // Clear points from localStorage on logout
+    localStorage.removeItem("userPoints");
   },
   setUser: (user?: User) => {
     if (user && user.point !== undefined) {
-      localStorage.setItem("userPoints", user.point.toString()); // Store points in localStorage
+      localStorage.setItem("userPoints", user.point.toString());
     }
     set({
       user: user,
