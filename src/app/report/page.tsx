@@ -3,8 +3,6 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Input } from "../../components/ui/input";
-import enableLocation from "../../../assets/icons/enable location.svg";
-import disableLocation from "../../../assets/icons/disable location.svg";
 import chatIcon from "../../../assets/icons/chat Icon.svg";
 import Link from "next/link";
 import healthPadi from "../../../public/images/healthPadi.png";
@@ -24,6 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Switch } from "@/components/ui/switch"; // Import the Switch component
 
 // Define the AddressComponent interface
 interface AddressComponent {
@@ -141,6 +140,14 @@ export default function CreateReport() {
 
       return;
     }
+
+    // // Check if the user is allowed to submit a report
+    // if (user?.roles.includes("disabled")) {
+    //   setModalMessage("Sorry, you can't submit a report at the moment.");
+    //   setShowModal(true);
+    //   return;
+    // }
+
     setIsLoading(true);
     console.log("Submitting report with data:", {
       location: location,
@@ -165,7 +172,9 @@ export default function CreateReport() {
           setUser({
             ...user,
             id: user?.id ?? "",
-            point: (user?.point ?? 0) + 100,
+            //the real point toshould come from the backend response
+            point: user?.point ? user.point + 100 : 100,
+
             email: user?.email ?? "",
             firstName: user?.firstName ?? "",
             lastName: user?.lastName ?? "",
@@ -237,13 +246,10 @@ export default function CreateReport() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <Image
-                src={locationEnabled ? enableLocation : disableLocation}
-                alt={locationEnabled ? "disable location" : "enable location"}
-                width={30}
-                height={30}
-                className={`ml-3 cursor-pointer`}
-                onClick={handleToggleLocation}
+              <Switch
+                checked={locationEnabled}
+                onCheckedChange={handleToggleLocation}
+                className="ml-3"
               />
               {suggestions.length > 0 && (
                 <ul className="absolute top-full left-0 right-0 bg-white border border-gray-300 z-10">

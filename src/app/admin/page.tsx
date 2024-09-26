@@ -194,7 +194,12 @@ function UserCard({
   const { data: userReports } = useGetUserReportsQuery(user.id);
   const { adminToggleMutation } = useAdminToggle(); // Use the adminToggleMutation
 
-  const handleUserCardClick = () => {
+  const handleUserCardClick = (event: React.MouseEvent) => {
+    // Check if the click is on the switch container
+    if ((event.target as HTMLElement).closest(".switch-container")) {
+      return;
+    }
+
     console.log("<<<<<<<<<<<<<<<>>>>>>>>>>>>>>", userReports);
     const reportsCount = userReports?.length || 0;
     console.log("Reports count:>>>>>>>>>>>>>>>>>>>>>>>>>>>", reportsCount);
@@ -213,7 +218,7 @@ function UserCard({
     setIsDialogOpen(true);
   };
 
-  const handleToggleChange = () => {
+  const handleToggleChange = (checked: boolean) => {
     adminToggleMutation.mutate({ userId: user.id });
   };
 
@@ -237,10 +242,9 @@ function UserCard({
             </p>
           </CardContent>
         </div>
-        <Switch
-          className="ml-auto mt-4 md:mt-0"
-          onCheckedChange={handleToggleChange}
-        />{" "}
+        <div className="switch-container ml-auto mt-4 md:mt-0">
+          <Switch onCheckedChange={handleToggleChange} />
+        </div>
         {/* Add the Switch component and align it to the right */}
       </Card>
 
