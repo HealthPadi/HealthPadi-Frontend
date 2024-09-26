@@ -99,8 +99,8 @@ export default function AdminDashboard() {
   return (
     <>
       <AdminNavbar />
-      <main className="flex flex-col items-center mb-10">
-        <div className="flex justify-between items-center mt-5">
+      <main className="flex flex-col items-center mb-10 px-4 md:px-0">
+        <div className="flex justify-between items-center mt-5 w-full md:w-1/2">
           <h1 className="text-2xl font-bold">HealthPadi Users</h1>
         </div>
         <div className="w-full md:w-1/2 mt-3">
@@ -224,7 +224,7 @@ function UserCard({
         className="p-4 border rounded shadow w-full md:w-1/2 h-auto md:h-32 cursor-pointer flex flex-col md:flex-row justify-between items-start md:items-center"
         onClick={handleUserCardClick}
       >
-        <div className="flex flex-col ">
+        <div className="flex flex-col w-full md:w-auto">
           <CardHeader className="w-full md:w-auto">
             <CardTitle className="text-xl font-semibold">
               {user.firstName} {user.lastName}
