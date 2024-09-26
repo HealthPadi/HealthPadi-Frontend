@@ -9,8 +9,8 @@ export type User = {
   lastName: string;
   point: number; // This value comes from the backend
   report: number;
+  canReport: boolean; // Add this flag
 };
-
 export type AuthState = {
   token?: string;
   user?: User;
