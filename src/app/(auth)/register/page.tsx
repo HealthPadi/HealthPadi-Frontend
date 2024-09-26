@@ -99,7 +99,6 @@ const Register = () => {
           id: data.token, // Ensure this is the correct user ID
           point: 0, // Ensure points are always initialized to 0 when users first register
           report: 0, // Initialize report to 0 when users first register
-          canReport: true, // Initialize canReport to true or false as needed
         });
 
         // router.push("/dashboard");
